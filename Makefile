@@ -1,6 +1,6 @@
 # プロジェクトの設定
 NAME = Cub3D
-SRC = srcs/main.c srcs/global.c srcs/init.c srcs/free.c srcs/event.c
+SRC = srcs/main.c srcs/global.c srcs/init.c srcs/free.c srcs/event.c srcs/utils.c
 OBJS = $(SRC:%.c=%.o)
 
 # MiniLibX のパス
@@ -9,7 +9,7 @@ MLX = $(MLX_DIR)/libmlx.a
 
 # コンパイルフラグ
 INCLUDES = -I includes
-CFLAGS = -Wall -Wextra -Werror -O3 $(INCLUDES) -g
+CFLAGS = -O3 $(INCLUDES) -g
 LDFLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm
 
 # コンパイラ

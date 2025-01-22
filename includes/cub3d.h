@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/18 16:20:59 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:11:44 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,31 @@ typedef struct s_data
 	t_img_data	img;
 }				t_data;
 
-typedef struct s_player
+typedef struct s_vector
 {
 	double		x;
 	double		y;
-	double		dir_x;
-	double		dir_y;
-	int			fov;
-}				t_player;
+}				t_vector;
 
 typedef struct s_ray
 {
-	double		side_dist_x;
-	double		side_dist_y;
-	double		delta_dist_x;
-	double		delta_dist_y;
+	t_vector	pos;
+	t_vector	way;
 }				t_ray;
+
+typedef struct s_player
+{
+	t_vector	vector;
+	double		angle;
+}				t_player;
+
+// typedef struct s_ray
+// {
+// 	double		side_dist_x;
+// 	double		side_dist_y;
+// 	double		delta_dist_x;
+// 	double		delta_dist_y;
+// }				t_ray;
 
 // global.c
 t_data			*get_t_data(void);
@@ -81,4 +90,9 @@ int				key_event(int keycode, t_data *data);
 // utils.c
 void			my_mlx_pixel_put(t_img_data *data, int x, int y, int color);
 int				create_trgb(int t, int r, int g, int b);
+
+// vector.c
+void			vector_plus(t_vector *result, t_vector a, t_vector b);
+void			vector_minus(t_vector *result, t_vector a, t_vector b);
+
 #endif

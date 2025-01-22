@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/22 19:11:44 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/23 02:00:24 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
 
 # define WIDTH 640
 # define HEIGHT 480
@@ -63,20 +64,13 @@ typedef struct s_ray
 
 typedef struct s_player
 {
-	t_vector	vector;
+	t_vector	pos;
 	double		angle;
 }				t_player;
 
-// typedef struct s_ray
-// {
-// 	double		side_dist_x;
-// 	double		side_dist_y;
-// 	double		delta_dist_x;
-// 	double		delta_dist_y;
-// }				t_ray;
-
 // global.c
 t_data			*get_t_data(void);
+t_player		*get_player(void);
 
 // init.c
 void			init_t_data(void);
@@ -92,7 +86,15 @@ void			my_mlx_pixel_put(t_img_data *data, int x, int y, int color);
 int				create_trgb(int t, int r, int g, int b);
 
 // vector.c
-void			vector_plus(t_vector *result, t_vector a, t_vector b);
-void			vector_minus(t_vector *result, t_vector a, t_vector b);
+t_vector		vector_add(t_vector a, t_vector b);
+t_vector		vector_sub(t_vector a, t_vector b);
+
+// ray.c
+t_ray			with2p(t_vector begin, t_vector end);
+t_vector		ray_begin(t_ray ray);
+t_vector		ray_end(t_ray ray);
+
+// render.c
+int				render(t_data *data);
 
 #endif

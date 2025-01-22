@@ -6,13 +6,14 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:08:23 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/22 19:02:08 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/23 02:26:36 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// int		world_map[24][24] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+// int		world_map[24][24] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+// 1, 1,
 // 			1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 // 			0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 // 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -46,9 +47,20 @@
 // 								{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 // 								1, 1, 1, 1, 1, 1, 1, 1}};
 
+static void	init_player(void)
+{
+	t_player	*player;
+
+	player = get_player();
+	player->angle = M_PI / 4;
+	player->pos.x = 100;
+	player->pos.y = 200;
+}
+
 void	init_t_data(void)
 {
 	t_data *data;
+	t_player *player;
 	// // void *img;
 	// // char *relative_path = "./blue_stones.xpm";
 	// // int img_width;
@@ -59,7 +71,8 @@ void	init_t_data(void)
 
 	// double time = 0;
 	// double oldTime = 0;
-
+	init_player();
+	player = get_player();
 	data = get_t_data();
 	data->mlx = mlx_init();
 	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, WINDOW_NAME);
@@ -67,7 +80,9 @@ void	init_t_data(void)
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel,
 			&data->img.line_length, &data->img.endian);
 
-	
+	mlx_key_hook(data->win, key_event, data);
+	mlx_loop_hook(data->win, render, data);
+	mlx_loop(data->mlx);
 
 	// for (int x = 0; x < WIDTH; x++)
 	// {
@@ -177,6 +192,4 @@ void	init_t_data(void)
 
 	// img = mlx_xpm_file_to_image(data->mlx, relative_path, &img_width,
 	// 		&img_height);
-	mlx_key_hook(data->win, key_event, data);
-	mlx_loop(data->mlx);
 }

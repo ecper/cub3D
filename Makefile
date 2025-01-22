@@ -1,6 +1,6 @@
 # プロジェクトの設定
 NAME = Cub3D
-SRC = srcs/main.c srcs/global.c srcs/init.c srcs/free.c srcs/event.c srcs/utils.c srcs/vector.c
+SRC = srcs/main.c srcs/global.c srcs/init.c srcs/free.c srcs/event.c srcs/utils.c srcs/vector.c srcs/ray.c srcs/render.c
 OBJS = $(SRC:%.c=%.o)
 
 # MiniLibX のパス

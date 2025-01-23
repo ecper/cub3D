@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/23 18:16:30 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/24 00:57:51 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,12 @@ typedef struct s_ray
 
 typedef struct s_player
 {
+	double		fov;
 	t_vector	pos;
 	t_vector	way;
 	double		angle;
+	int			is_right_angle;
+	int			is_left_angle;
 }				t_player;
 
 // global.c
@@ -94,6 +97,7 @@ t_vector		vector_sub(t_vector a, t_vector b);
 t_ray			with2p(t_vector begin, t_vector end);
 t_vector		ray_begin(t_ray ray);
 t_vector		ray_end(t_ray ray);
+t_vector		*calc_intersection(t_ray ray1, t_ray ray2);
 
 // render.c
 int				render(t_data *data);

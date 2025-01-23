@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:21:31 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/18 11:41:49 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:15:48 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ int	close_window(t_data *data)
 }
 static void	move(int keycode)
 {
+	t_player *player;
+
+	player = get_player();
 	if (keycode == LEFT_ARROW_KEY)
-		printf("LEFT_ARROW_KEY PRESSED");
+		player->angle += M_PI / 60;
 	else if (keycode == RIGHT_ARROW_KEY)
-		printf("RIGHT_ARROW_KEY PRESSED");
+		player->angle -= M_PI / 60;
 	else if (keycode == TOP_ARROW_KEY)
 		printf("TOP_ARROW_KEY PRESSED");
 	else if (keycode == DOWN_ARROW_KEY)

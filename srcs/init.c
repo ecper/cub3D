@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:08:23 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/23 02:26:36 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:17:03 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ static void	init_player(void)
 
 	player = get_player();
 	player->angle = M_PI / 4;
-	player->pos.x = 100;
-	player->pos.y = 200;
+	player->pos.x = 0;
+	player->pos.y = 0;
+	player->way.x = 100;
+	player->way.y = 100;
 }
 
 void	init_t_data(void)
@@ -81,7 +83,7 @@ void	init_t_data(void)
 			&data->img.line_length, &data->img.endian);
 
 	mlx_key_hook(data->win, key_event, data);
-	mlx_loop_hook(data->win, render, data);
+	mlx_loop_hook(data->mlx, render, data);
 	mlx_loop(data->mlx);
 
 	// for (int x = 0; x < WIDTH; x++)

@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 00:43:49 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/23 01:28:11 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:19:57 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,18 @@ static void	draw_line(t_vector begin, t_vector end, int color)
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 }
 
+static void calc_player_way(void)
+{
+	t_player *player = get_player();
+
+	double x = ((player->way.x - player->pos.x) * cos(player->angle) * 10) - ((player->way.y - player->pos.y) * sin(player->angle) * 10);
+	double y = ((player->way.x - player->pos.x) * sin(player->angle) * 10) + ((player->way.y - player->pos.y) * cos(player->angle) * 10);
+
+	player->way.x = x;
+	player->way.y = y;
+}
+
+
 static void	draw_point(t_vector pos)
 {
 	t_data	*data;
@@ -51,7 +63,6 @@ static void	draw_point(t_vector pos)
 
 int	render(t_data *data)
 {
-	write(1, "a", 1);
 	t_player *player = get_player();
 	t_ray ray1 = with2p((t_vector){50, 50}, (t_vector){100, 300});
 	t_ray ray2 = with2p((t_vector){100, 300}, (t_vector){250, 200});
@@ -63,10 +74,7 @@ int	render(t_data *data)
 
 	draw_point(player->pos);
 
-	t_ray pWay = with2p(player->pos, (t_vector){cos(player->angle) * 100,
-			sin(player->angle) * 100});
-
-	draw_line(ray_begin(pWay), ray_end(pWay), create_trgb(1, 255, 255, 255));
-
+	calc_player_way();
+	draw_line(player->pos, player->way, create_trgb(1, 255, 255, 255));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/23 02:00:24 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:16:30 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_ray
 typedef struct s_player
 {
 	t_vector	pos;
+	t_vector	way;
 	double		angle;
 }				t_player;
 

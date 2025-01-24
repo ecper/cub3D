@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 13:57:59 by soaoki           ###   ########.fr       */
+/*   Created: 2024/08/15 19:33:11 by anakin            #+#    #+#             */
+/*   Updated: 2024/08/21 20:47:29 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int	main(void)
+void	ft_putendl_fd(char *s, int fd)
 {
-	
-	init_t_data();
+	int		i;
+	char	c;
 
-	// mlx_mouse_hook(data.win, mouse_hook, &data);
-	// mlx_key_hook(data.win, key_hook, &data);
-	// mlx_hook(data.win, CROSS_BUTTON, 0, close_window, &data);
-	// mlx_expose_hook(data.win, key_hook, &data);
-	// mlx_loop_hook(data.mlx, render, &data);
-	// mlx_loop(data.mlx);
-	
-	return (0);
+	i = 0;
+	c = '\n';
+	if (s != NULL)
+	{
+		while (s[i] != '\0')
+		{
+			write(fd, &s[i], 1);
+			i++;
+		}
+	}
+	write(fd, &c, 1);
 }

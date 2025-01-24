@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 13:57:59 by soaoki           ###   ########.fr       */
+/*   Created: 2024/04/15 22:34:47 by soaoki            #+#    #+#             */
+/*   Updated: 2024/08/22 16:11:38 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_isdigit(int c)
 {
-	
-	init_t_data();
-
-	// mlx_mouse_hook(data.win, mouse_hook, &data);
-	// mlx_key_hook(data.win, key_hook, &data);
-	// mlx_hook(data.win, CROSS_BUTTON, 0, close_window, &data);
-	// mlx_expose_hook(data.win, key_hook, &data);
-	// mlx_loop_hook(data.mlx, render, &data);
-	// mlx_loop(data.mlx);
-	
-	return (0);
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
 }
+
+// #include <ctype.h>
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	printf("%d\n", ft_isdigit('0'));
+// 	printf("%d\n", isdigit('0'));
+// 	printf("%d\n", ft_isdigit('a'));
+// 	printf("%d\n", isdigit('a'));
+// 	printf("%d\n", ft_isdigit('-'));
+// 	printf("%d\n", isdigit('-'));
+// 	return (0);
+// }

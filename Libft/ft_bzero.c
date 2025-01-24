@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 13:57:59 by soaoki           ###   ########.fr       */
+/*   Created: 2024/04/18 22:08:42 by soaoki            #+#    #+#             */
+/*   Updated: 2024/08/21 18:12:42 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int	main(void)
+void	ft_bzero(void *s, size_t n)
 {
-	
-	init_t_data();
+	size_t			i;
+	unsigned char	*dest;
 
-	// mlx_mouse_hook(data.win, mouse_hook, &data);
-	// mlx_key_hook(data.win, key_hook, &data);
-	// mlx_hook(data.win, CROSS_BUTTON, 0, close_window, &data);
-	// mlx_expose_hook(data.win, key_hook, &data);
-	// mlx_loop_hook(data.mlx, render, &data);
-	// mlx_loop(data.mlx);
-	
-	return (0);
+	i = 0;
+	dest = (unsigned char *)s;
+	while (i < n)
+	{
+		dest[i] = 0;
+		i++;
+	}
 }
+
+// int	main(void)
+// {
+// 	char	s1[10] = "abcdefg";
+// 	char	s2[10] = "abcdefg";
+
+// 	printf("%s\n", bzero(s1, 1));
+// 	ft_bzero(s2, 1);
+// 	printf("%s\n", s2);
+// }

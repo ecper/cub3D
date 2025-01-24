@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 13:57:59 by soaoki           ###   ########.fr       */
+/*   Created: 2024/04/16 21:30:07 by soaoki            #+#    #+#             */
+/*   Updated: 2024/08/22 16:11:44 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_isprint(int c)
 {
-	
-	init_t_data();
-
-	// mlx_mouse_hook(data.win, mouse_hook, &data);
-	// mlx_key_hook(data.win, key_hook, &data);
-	// mlx_hook(data.win, CROSS_BUTTON, 0, close_window, &data);
-	// mlx_expose_hook(data.win, key_hook, &data);
-	// mlx_loop_hook(data.mlx, render, &data);
-	// mlx_loop(data.mlx);
-	
-	return (0);
+	if (c >= 32 && c <= 126)
+		return (1);
+	else
+		return (0);
 }
+
+// #include <ctype.h>
+// #include <stdio.h>
+
+// int	main(void)
+// {
+// 	printf("%d\n", ft_isprint('a'));
+// 	printf("%d\n", ft_isprint('a'));
+// 	printf("%d\n", ft_isprint(12));
+// 	printf("%d\n", ft_isprint(12));
+// 	printf("%d\n", ft_isprint('\n'));
+// 	printf("%d\n", ft_isprint('\n'));
+// }

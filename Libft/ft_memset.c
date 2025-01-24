@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 13:57:59 by soaoki           ###   ########.fr       */
+/*   Created: 2024/04/16 22:24:45 by soaoki            #+#    #+#             */
+/*   Updated: 2024/08/22 16:12:10 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_memset(void *s, int c, size_t size)
 {
-	
-	init_t_data();
+	size_t			i;
+	unsigned char	*string;
 
-	// mlx_mouse_hook(data.win, mouse_hook, &data);
-	// mlx_key_hook(data.win, key_hook, &data);
-	// mlx_hook(data.win, CROSS_BUTTON, 0, close_window, &data);
-	// mlx_expose_hook(data.win, key_hook, &data);
-	// mlx_loop_hook(data.mlx, render, &data);
-	// mlx_loop(data.mlx);
-	
-	return (0);
+	i = 0;
+	string = s;
+	while (i < size)
+	{
+		string[i] = c;
+		i++;
+	}
+	return (string);
 }
+
+// #include <stdio.h>
+// #include <string.h>
+
+// int	main(void)
+// {
+// 	int	s1[] = "abcdefg";
+// 	int	s2[] = "abcdefg";
+
+// 	printf("%s\n", memset(s1, 'x', 5));
+// 	printf("%s\n", ft_memset(s1, 'x', 5));
+// }

@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 13:57:59 by soaoki           ###   ########.fr       */
+/*   Created: 2024/04/15 23:39:28 by soaoki            #+#    #+#             */
+/*   Updated: 2024/08/22 16:11:33 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_isascii(int c)
 {
-	
-	init_t_data();
-
-	// mlx_mouse_hook(data.win, mouse_hook, &data);
-	// mlx_key_hook(data.win, key_hook, &data);
-	// mlx_hook(data.win, CROSS_BUTTON, 0, close_window, &data);
-	// mlx_expose_hook(data.win, key_hook, &data);
-	// mlx_loop_hook(data.mlx, render, &data);
-	// mlx_loop(data.mlx);
-	
-	return (0);
+	if (c >= 0 && c <= 127)
+		return (1);
+	else
+		return (0);
 }
+// #include <ctype.h>
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	printf("%d\n", ft_isascii('a'));
+// 	printf("%d\n", isascii('a'));
+// 	printf("%d\n", ft_isascii(0x82));
+// 	printf("%d\n", isascii(0x82));
+// 	printf("%d\n", ft_isascii(1000));
+// 	printf("%d\n", isascii(1000));
+// }

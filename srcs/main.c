@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 14:20:15 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/01/24 18:20:32 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ int	open_cubfile(int argc, char *filename)
 		print_error("Error:problem loading the file.");
 	return (fd);
 }
-int	main(void)
+int	main(int argc,char **argv)
 {
 	int fd;
+	t_config *config;
 	
 	fd = open_cubfile(argc, argv[1]); // openのエラーとエクステンションの確認
-	
+	config =parser(fd);
+	//init_t_dataにconfigを渡して初期化する。
 	init_t_data();
 
 	// mlx_mouse_hook(data.win, mouse_hook, &data);

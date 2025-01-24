@@ -1,6 +1,9 @@
 # プロジェクトの設定
 NAME = Cub3D
-SRC = srcs/main.c srcs/global.c srcs/init.c srcs/free.c srcs/event.c srcs/utils.c srcs/vector.c srcs/ray.c srcs/render.c
+GNL = $(wildcard get_next_line/*.c)
+LIB_DIR		= ./Libft
+LIB_NAME	= $(LIB_DIR)/libft.a
+SRC = srcs/main.c srcs/global.c srcs/init.c srcs/free.c srcs/event.c srcs/utils.c srcs/vector.c srcs/ray.c srcs/render.c srcs/parser.c srcs/error.c $(GNL) $(LIB_NAME)
 OBJS = $(SRC:%.c=%.o)
 
 # MiniLibX のパス
@@ -16,7 +19,10 @@ LDFLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm
 CC = cc
 
 # ビルドターゲット
-all: $(MLX) $(NAME)
+all: $(MLX) $(NAME) $(LIB_NAME)
+
+$(LIB_NAME):
+	$(MAKE) -C $(LIB_DIR)
 
 # bonus target
 bonus: $(MLX) $(NAME)
@@ -37,9 +43,11 @@ $(NAME): $(OBJS)
 clean:
 	rm -f $(OBJS)
 	@$(MAKE) -C $(MLX_DIR) clean
+	$(MAKE) -C $(LIB_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C $(LIB_DIR) fclean
 
 re: fclean all
 

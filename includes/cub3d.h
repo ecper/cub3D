@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 13:44:27 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/24 18:20:39 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
+# include <fcntl.h>
+# include <../Libft/libft.h>
+# include <../get_next_line/get_next_line.h>
 
 # define WIDTH 640
 # define HEIGHT 480
@@ -33,6 +37,40 @@
 # define RIGHT_ARROW_KEY 65363
 # define DOWN_ARROW_KEY 65364
 # define ESC_KEY 65307
+
+
+//textureのパスと現れたかを確認する
+typedef struct s_tex
+{
+	char	*path;
+	bool	appear;
+}t_tex;
+
+typedef struct s_color
+{
+	int	red;
+	int	green;
+	int	blue;
+}t_color;
+
+typedef struct s_map
+{
+	char	**mapinfo;
+	int		width;
+	int		height;
+}t_map;
+
+//parse用の構造体
+typedef struct s_config
+{
+	t_tex	path_no;
+	t_tex	path_so;
+	t_tex	path_we;
+	t_tex	path_ea;
+	t_color	floor;
+	t_color	ceil;
+	t_map	map;
+}t_config;
 
 typedef struct s_img_data
 {
@@ -104,5 +142,11 @@ t_vector		*calc_intersection(t_ray ray1, t_ray ray2);
 
 // render.c
 int				render(t_data *data);
+
+//error.c
+void			print_error(char *msg);
+
+//parser.c
+t_config		*parser(int fd);
 
 #endif

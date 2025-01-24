@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 13:44:27 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:15:57 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ typedef struct s_player
 	int			is_left_angle;
 }				t_player;
 
+//parse
+int				open_cubfile(int argc, char *filename);
+
 // global.c
 t_data			*get_t_data(void);
 t_player		*get_player(void);
@@ -104,5 +107,9 @@ t_vector		*calc_intersection(t_ray ray1, t_ray ray2);
 
 // render.c
 int				render(t_data *data);
+
+//error.c
+int				open_ber_file(int argc, char *filename);
+
 
 #endif

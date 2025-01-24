@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 19:05:46 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/23 00:00:36 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:44:18 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,9 @@ t_vector	vector_sub(t_vector a, t_vector b)
 	result.x = a.x - b.x;
 	result.y = a.y - b.y;
 	return (result);
+}
+
+double	vector_mag(t_vector a)
+{
+	return ((a.x * a.x) + (a.y * a.y));
 }

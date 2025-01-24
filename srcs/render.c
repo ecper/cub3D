@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 00:43:49 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 01:02:33 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:49:57 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ static void	calc_player_way(t_ray ray1, t_ray ray2, t_ray ray3)
 	t_vector	beam_way;
 	double		left_angle;
 	double		change_angle;
+	double		wallDist;
+	double		lineHeight;
 
 	player = get_player();
 	left_angle = -player->fov;
@@ -109,8 +111,10 @@ static void	calc_player_way(t_ray ray1, t_ray ray2, t_ray ray3)
 		hitpos = calc_intersection(ray3, (t_ray){player->pos, beam_way});
 		if (!hitpos)
 			continue ;
+
 		
-		
+		wallDist = vector_mag(vector_sub(*hitpos, player->pos));
+		lineHeight = 2800 / wallDist;
 	}
 	// center angle change
 	player->way = get_beam(change_angle);

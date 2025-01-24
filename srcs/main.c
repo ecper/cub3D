@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 14:18:05 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/01/24 14:20:15 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	main(void)
 {
 	int fd;
 	
-	fd = open_cubfile(argc, argv[1]);
+	fd = open_cubfile(argc, argv[1]); // openのエラーとエクステンションの確認
+	
 	init_t_data();
 
 	// mlx_mouse_hook(data.win, mouse_hook, &data);

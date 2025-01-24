@@ -6,13 +6,13 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 13:20:14 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 13:39:31 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:08:15 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_min(double c1, double c2)
+double	ft_min(double c1, double c2)
 {
 	if (c1 < c2)
 		return (c1);
@@ -20,7 +20,7 @@ int	ft_min(double c1, double c2)
 		return (c2);
 }
 
-int	ft_max(double c1, double c2)
+double	ft_max(double c1, double c2)
 {
 	if (c1 < c2)
 		return (c2);

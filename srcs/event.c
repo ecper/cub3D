@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:21:31 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/23 23:25:15 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/24 17:47:40 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@ int	close_window(t_data *data)
 	exit(0);
 	return (0);
 }
+
+static void	change_player_pos(double dx, double dy)
+{
+	t_player	*player;
+
+	player = get_player();
+	player->pos.x += dx;
+	player->pos.y += dy;
+	player->way.x += dx;
+	player->way.y += dy;
+}
+
 static void	move(int keycode)
 {
 	t_player	*player;
@@ -36,14 +48,19 @@ static void	move(int keycode)
 
 int	key_event(int keycode, t_data *data)
 {
+	t_player *player;
+
+	player = get_player();
 	if (keycode == ESC_KEY)
 		close_window(data);
 	else if (keycode == W_KEY)
-		printf("W KEY PRESSED");
+		change_player_pos(0, -1);
 	else if (keycode == A_KEY)
-		printf("A KEY PRESSED");
+		change_player_pos(-1, 0);
 	else if (keycode == S_KEY)
-		printf("S KEY PRESSED");
+		change_player_pos(0, 1);
+	else if (keycode == D_KEY)
+		change_player_pos(1, 0);
 	else if (keycode == LEFT_ARROW_KEY || keycode == RIGHT_ARROW_KEY
 		|| keycode == TOP_ARROW_KEY || keycode == DOWN_ARROW_KEY)
 		move(keycode);

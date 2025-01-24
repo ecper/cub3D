@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 00:43:49 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 13:49:57 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/24 18:40:48 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,21 @@ static void	clear_color(void)
 	}
 }
 
+static void	draw_vertical_line(t_vector begin, t_vector end)
+{
+	t_data	*data;
+	int		i;
+
+	data = get_t_data();
+	i = begin.y;
+	fflush(0);
+	while (i < end.y)
+	{
+		my_mlx_pixel_put(&data->img, begin.x, i, create_trgb(1, 255, 255, 255));
+		i++;
+	}
+}
+
 static void	draw_line(t_vector begin, t_vector end, int color)
 {
 	t_data	*data;
@@ -41,7 +56,13 @@ static void	draw_line(t_vector begin, t_vector end, int color)
 	int		is_larger;
 
 	data = get_t_data();
-	slope = (end.y - begin.y) / (end.x - begin.x);
+	if (end.x - begin.x != 0)
+		slope = (end.y - begin.y) / (end.x - begin.x);
+	else
+	{
+		draw_vertical_line(begin, end);
+		return ;
+	}
 	intercept = begin.y - (slope * begin.x);
 	if (begin.x < end.x)
 		is_larger = 0;
@@ -74,15 +95,41 @@ static t_vector	get_beam(double angle)
 	return ((t_vector){x, y});
 }
 
+static void	render_wall_line(t_vector *hitpos, int index, int beam_total)
+{
+	t_player	*player;
+	double		wall_dist;
+	double		line_height;
+	t_vector	line_begin;
+	t_vector	line_end;
+	t_vector	viewroot;
+
+	if (!hitpos)
+		return ;
+	player = get_player();
+	wall_dist = vector_mag(vector_sub(*hitpos, player->pos));
+	line_height = 50000 / wall_dist;
+	viewroot = (t_vector){320, 180};
+	line_begin = vector_add(viewroot, (t_vector){300 / (beam_total * index),
+			-line_height / 2});
+	line_end = vector_add(line_begin, (t_vector){0, line_height});
+	draw_line(line_begin, line_end, create_trgb(1, 255, 255, 255));
+}
+
 static void	calc_player_way(t_ray ray1, t_ray ray2, t_ray ray3)
 {
 	t_player	*player;
 	t_vector	*hitpos;
-	t_vector	beam_way;
+	t_vector	beam_pos;
 	double		left_angle;
 	double		change_angle;
-	double		wallDist;
-	double		lineHeight;
+	double		wall_dist;
+	double		line_height;
+	int			i;
+	int			beam_total;
+	t_vector	line_begin;
+	t_vector	line_end;
+	t_vector	viewroot;
 
 	player = get_player();
 	left_angle = -player->fov;
@@ -96,25 +143,21 @@ static void	calc_player_way(t_ray ray1, t_ray ray2, t_ray ray3)
 		player->is_right_angle = 0;
 		change_angle = player->angle;
 	}
+	i = 0;
+	beam_total = 30;
 	// fov angle change
 	while (left_angle < player->fov)
 	{
-		beam_way = get_beam(left_angle);
-		draw_line(player->pos, beam_way, create_trgb(1, 255, 255, 255));
-		left_angle += player->angle;
-		hitpos = calc_intersection(ray1, (t_ray){player->pos, beam_way});
-		if (!hitpos)
-			continue ;
-		hitpos = calc_intersection(ray2, (t_ray){player->pos, beam_way});
-		if (!hitpos)
-			continue ;
-		hitpos = calc_intersection(ray3, (t_ray){player->pos, beam_way});
-		if (!hitpos)
-			continue ;
-
-		
-		wallDist = vector_mag(vector_sub(*hitpos, player->pos));
-		lineHeight = 2800 / wallDist;
+		beam_pos = get_beam(left_angle);
+		draw_line(player->pos, beam_pos, create_trgb(1, 255, 255, 255));
+		left_angle += player->fov / beam_total;
+		i++;
+		hitpos = calc_intersection(ray1, with2p(player->pos, beam_pos));
+		render_wall_line(hitpos, i, beam_total);
+		hitpos = calc_intersection(ray2, with2p(player->pos, beam_pos));
+		render_wall_line(hitpos, i, beam_total);
+		hitpos = calc_intersection(ray3, with2p(player->pos, beam_pos));
+		render_wall_line(hitpos, i, beam_total);
 	}
 	// center angle change
 	player->way = get_beam(change_angle);

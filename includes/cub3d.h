@@ -6,9 +6,10 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 15:08:23 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/24 19:14:42 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -72,6 +73,9 @@ typedef struct s_player
 	int			is_left_angle;
 }				t_player;
 
+//parse
+int				open_cubfile(int argc, char *filename);
+
 // global.c
 t_data			*get_t_data(void);
 t_player		*get_player(void);
@@ -104,5 +108,9 @@ t_vector		*calc_intersection(t_ray ray1, t_ray ray2);
 
 // render.c
 int				render(t_data *data);
+
+//error.c
+int				open_ber_file(int argc, char *filename);
+
 
 #endif

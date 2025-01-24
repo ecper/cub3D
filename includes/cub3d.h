@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 00:57:51 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:44:27 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,13 @@ int				key_event(int keycode, t_data *data);
 // utils.c
 void			my_mlx_pixel_put(t_img_data *data, int x, int y, int color);
 int				create_trgb(int t, int r, int g, int b);
+int				ft_min(double c1, double c2);
+int				ft_max(double c1, double c2);
 
 // vector.c
 t_vector		vector_add(t_vector a, t_vector b);
 t_vector		vector_sub(t_vector a, t_vector b);
+double			vector_mag(t_vector a);
 
 // ray.c
 t_ray			with2p(t_vector begin, t_vector end);

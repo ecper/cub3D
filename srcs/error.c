@@ -10,3 +10,19 @@ void	print_error(char *msg)
 	write(2, reset, 4);
 	exit(1);
 }
+void	wp_free(char ***str)
+{
+	int	i;
+
+	if (!str || !*str)
+		return ;
+	i = 0;
+	while ((*str)[i])
+	{
+		free((*str)[i]);
+		(*str)[i] = NULL;
+		i++;
+	}
+	free(*str);
+	*str = NULL;
+}

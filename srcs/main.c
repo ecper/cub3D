@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 18:20:32 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/01/25 15:35:19 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc,char **argv)
 	fd = open_cubfile(argc, argv[1]); // openのエラーとエクステンションの確認
 	config =parser(fd);
 	//init_t_dataにconfigを渡して初期化する。
-	init_t_data();
+	// init_t_data();
 
 	// mlx_mouse_hook(data.win, mouse_hook, &data);
 	// mlx_key_hook(data.win, key_hook, &data);

@@ -1,6 +1,6 @@
 # プロジェクトの設定
 NAME = Cub3D
-GNL = $(wildcard get_next_line/*.c)
+GNL = $(wildcard get_next_line/*.c) # 後で修正
 LIB_DIR		= ./Libft
 LIB_NAME	= $(LIB_DIR)/libft.a
 SRC = srcs/main.c srcs/global.c srcs/init.c srcs/free.c srcs/event.c srcs/utils.c srcs/vector.c srcs/ray.c srcs/render.c srcs/parser.c srcs/error.c $(GNL) $(LIB_NAME)
@@ -11,9 +11,9 @@ MLX_DIR = minilibx-linux
 MLX = $(MLX_DIR)/libmlx.a
 
 # コンパイルフラグ
-INCLUDES = -I includes
-CFLAGS = -O3 $(INCLUDES) -g
-LDFLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm
+INCLUDES = -I includes -g
+CFLAGS = -O3 $(INCLUDES)
+LDFLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm -fsanitize=address
 
 # コンパイラ
 CC = cc

@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 18:20:39 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/01/25 13:49:58 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int				render(t_data *data);
 
 //error.c
 void			print_error(char *msg);
+void			wp_free(char ***str);
 
 //parser.c
 t_config		*parser(int fd);

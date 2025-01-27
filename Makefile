@@ -3,7 +3,7 @@ NAME = Cub3D
 GNL = $(wildcard get_next_line/*.c) # 後で修正
 LIB_DIR		= ./Libft
 LIB_NAME	= $(LIB_DIR)/libft.a
-SRC = srcs/main.c srcs/global.c srcs/init.c srcs/free.c srcs/event.c srcs/utils.c srcs/vector.c srcs/ray.c srcs/render.c srcs/parser.c srcs/error.c $(GNL) $(LIB_NAME)
+SRC = srcs/main.c srcs/global.c srcs/init.c srcs/free.c srcs/event.c srcs/utils.c srcs/vector.c srcs/ray.c srcs/render.c srcs/readfile.c srcs/parser.c srcs/error.c $(GNL) $(LIB_NAME)
 OBJS = $(SRC:%.c=%.o)
 
 # MiniLibX のパス

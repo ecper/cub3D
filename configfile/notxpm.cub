@@ -1,11 +1,9 @@
 NO textures/eagle.xpm
-SO textures/greystone.xpm
+SO textures/greystone.txt
+WE textures/purplestone.txt     
 EA textures/red.xpm   
-WE textures/purplestone.xpm     
-
 F 184,113,39
 C 51,198,227
-
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
 1 0 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1

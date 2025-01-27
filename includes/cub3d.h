@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/25 13:49:58 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/01/27 19:58:20 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,39 @@
 # define DOWN_ARROW_KEY 65364
 # define ESC_KEY 65307
 
+//color config
+# define FLOOR 1
+# define CEIL 2
+
+//atoi
+# define ATOI_ERROR 256
+
+enum						e_line_type
+{
+	LINE_EMPTY,
+	LINE_PATH,
+	LINE_COLOR,
+	LINE_MAP,
+};
+typedef enum e_token_type	t_line_type;
+
+enum						e_direction
+{
+	NO = 1,
+	SO = 2,
+	WE = 3,
+	EA = 4,
+};
+typedef enum e_direction	t_direction;
+
+enum						e_color
+{
+	RED,
+	GLEEN,
+	BLUE,
+	MAX_COLOR,
+};
+typedef enum e_color		t_color;
 
 //textureのパスと現れたかを確認する
 typedef struct s_tex
@@ -46,12 +79,11 @@ typedef struct s_tex
 	bool	appear;
 }t_tex;
 
-typedef struct s_color
+typedef struct s_area
 {
-	int	red;
-	int	green;
-	int	blue;
-}t_color;
+	int		*color[MAX_COLOR];
+	bool	appear;
+}t_area;
 
 typedef struct s_map
 {
@@ -67,8 +99,8 @@ typedef struct s_config
 	t_tex	path_so;
 	t_tex	path_we;
 	t_tex	path_ea;
-	t_color	floor;
-	t_color	ceil;
+	t_area	floor;
+	t_area	ceil;
 	t_map	map;
 }t_config;
 
@@ -147,7 +179,11 @@ int				render(t_data *data);
 void			print_error(char *msg);
 void			wp_free(char ***str);
 
+//readfile.c
+t_map			*read_configfile(int fd);
+
 //parser.c
 t_config		*parser(int fd);
+int				check_mapinfo_last(t_config *config, int line_id);
 
 #endif

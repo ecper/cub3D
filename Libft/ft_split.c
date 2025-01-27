@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:40:24 by anakin            #+#    #+#             */
-/*   Updated: 2024/08/22 16:02:37 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/01/27 16:30:33 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	get_len(const char *str, char c)
 
 	len = 0;
 	sflag = 0;
-	while (*str)
+	while (*str != '\0')
 	{
 		if (*str != c && !sflag)
 		{

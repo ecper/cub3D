@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:21:31 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 17:47:40 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/27 21:22:41 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	close_window(t_data *data)
 {
 	mlx_destroy_window(data->mlx, data->win);
 	free_t_data();
+	free_square();
 	exit(0);
 	return (0);
 }

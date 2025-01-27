@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:08:23 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/24 18:41:51 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/27 21:41:18 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@
 // 								{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 // 								1, 1, 1, 1, 1, 1, 1, 1}};
 
+char		map[6][6] = {{'1', '1', '1', '1', '1', '1'}, {'1', '0', '0', '1',
+			'0', '1'}, {'1', '0', '1', '0', '0', '1'}, {'1', '1', '0', '0', 'N',
+			'1'}, {'1', '0', '0', '0', '0', '1'}, {'1', '1', '1', '1', '1',
+			'1'}};
+
 static void	init_player(void)
 {
 	t_player	*player;
@@ -58,6 +63,26 @@ static void	init_player(void)
 	player->pos.y = 200;
 	player->way.x = 0;
 	player->way.y = 0;
+}
+
+static void	init_square(void)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < 6)
+	{
+		j = 0;
+		while (j < 6)
+		{
+			if (map[i][j] == '1')
+				add_square(create_square(i * SQUARE_SIZE, j * SQUARE_SIZE));
+			j++;
+		}
+		i++;
+	}
 }
 
 void	init_t_data(void)
@@ -75,6 +100,7 @@ void	init_t_data(void)
 	// double time = 0;
 	// double oldTime = 0;
 	init_player();
+	init_square();
 	player = get_player();
 	data = get_t_data();
 	data->mlx = mlx_init();
@@ -83,8 +109,9 @@ void	init_t_data(void)
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel,
 			&data->img.line_length, &data->img.endian);
 
-	mlx_key_hook(data->win, key_event, data);
-	mlx_expose_hook(data->win, key_event, data);
+	mlx_hook(data->win, ON_KEYDOWN, ON_KEYDOWN, key_event, data);
+	mlx_hook(data->win, ON_KEYUP, ON_KEYUP, key_event, data);
+	// mlx_key_hook(data->win, key_event, data);
 	mlx_loop_hook(data->mlx, render, data);
 	mlx_loop(data->mlx);
 

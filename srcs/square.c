@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 20:46:15 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/27 21:40:32 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/28 01:19:51 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 t_square	*create_square(int x, int y)
 {
+	t_data		*data;
 	t_square	*new;
+	int			width;
+	int			height;
 
 	new = (t_square *)malloc(sizeof(t_square));
 	if (!new)
 		return (NULL);
+	data = get_t_data();
 	new->top = with2p((t_vector){x, y}, (t_vector){x + SQUARE_SIZE, y});
 	new->down = with2p((t_vector){x, y + SQUARE_SIZE}, (t_vector){x
 			+ SQUARE_SIZE, y + SQUARE_SIZE});

@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/27 21:40:52 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:49:47 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@
 # define WIDTH 1000
 # define HEIGHT 1000
 # define WINDOW_NAME "WE ARE THE WORLD"
+
+# define NORTH 0
+# define SOUTH 1
+# define WEST 2
+# define EAST 3
 
 # define SQUARE_SIZE 50
 
@@ -77,6 +82,18 @@ typedef struct s_player
 	int				is_left_angle;
 }					t_player;
 
+typedef struct s_texture_img
+
+{
+	void			*img;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_length;
+	int				endian;
+	int				width;
+	int				height;
+}					t_texture_img;
+
 typedef struct s_square
 {
 	t_ray			top;
@@ -93,6 +110,7 @@ int					open_cubfile(int argc, char *filename);
 t_data				*get_t_data(void);
 t_player			*get_player(void);
 t_square			**get_square(void);
+t_texture_img		*get_texture_img(void);
 
 // init.c
 void				init_t_data(void);
@@ -106,6 +124,8 @@ int					key_event(int keycode, t_data *data);
 
 // utils.c
 void				my_mlx_pixel_put(t_img_data *data, int x, int y, int color);
+unsigned int		get_texture_pixel_color(t_texture_img texture_img, int x,
+						int y);
 int					create_trgb(int t, int r, int g, int b);
 double				ft_min(double c1, double c2);
 double				ft_max(double c1, double c2);

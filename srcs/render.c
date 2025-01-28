@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 00:43:49 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/27 23:10:10 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:58:53 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,34 @@ static void	draw_vertical_line(t_vector begin, t_vector end, int color)
 	while (i < end.y)
 	{
 		my_mlx_pixel_put(&data->img, begin.x, i, color);
+		i++;
+	}
+}
+
+static void	draw_texture(t_vector begin, t_vector end, t_vector hitpos,
+		int lineHeight)
+{
+	t_data			*data;
+	t_texture_img	*texture_img;
+	int				i;
+	int				texX;
+	int				texY;
+	double			step;
+	double			texPos;
+
+	texture_img = get_texture_img();
+	data = get_t_data();
+	step = 1.0 * texture_img[NORTH].height / lineHeight;
+	hitpos.x -= floor(hitpos.x);
+	texX = (int)(hitpos.x * (double)texture_img[NORTH].width);
+	texPos = (hitpos.y - (HEIGHT / 2) + (lineHeight / 2)) * step;
+	i = begin.y;
+	while (i < end.y)
+	{
+		texY = (int)texPos & (texture_img[NORTH].height - 1);
+		texPos += step;
+		my_mlx_pixel_put(&data->img, begin.x, i,
+			(int)get_texture_pixel_color(texture_img[NORTH], texX, texY));
 		i++;
 	}
 }
@@ -134,24 +162,26 @@ static void	render_wall_line(t_vector *hitpos, int index)
 	t_player	*player;
 	double		wall_dist;
 	double		line_height;
+	double		draw_start;
+	double		draw_end;
 	t_vector	line_begin;
 	t_vector	line_end;
-	t_vector	viewroot;
 
 	if (!hitpos)
 		return ;
 	player = get_player();
 	wall_dist = vector_mag(vector_sub(*hitpos, player->pos));
 	line_height = 60000 / wall_dist;
-	if (line_height > HEIGHT)
-	{
-		line_height = HEIGHT;
-	}
-	viewroot = (t_vector){200, 180};
-	line_begin = vector_add(viewroot, (t_vector){200 + index, -line_height
-			/ 2});
-	line_end = vector_add(line_begin, (t_vector){0, line_height});
-	draw_line(line_begin, line_end, create_trgb(1, 255, 255, 255));
+	draw_start = -(line_height / 2) + HEIGHT / 2;
+	if (draw_start < 0)
+		draw_start = 0;
+	draw_end = line_height;
+	if (draw_end >= HEIGHT)
+		draw_end = HEIGHT;
+	line_begin = (t_vector){index, draw_start};
+	line_end = vector_add(line_begin, (t_vector){0, draw_end});
+	draw_texture(line_begin, line_end, *hitpos, line_height);
+	// draw_line(line_begin, line_end, create_trgb(1, 255, 255, 255));
 	free(hitpos);
 }
 
@@ -230,7 +260,7 @@ static void	calc_player_way(void)
 		change_angle = player->angle;
 	}
 	i = 0;
-	beam_total = 200;
+	beam_total = WIDTH;
 	// fov angle change
 	while (left_angle < player->fov)
 	{

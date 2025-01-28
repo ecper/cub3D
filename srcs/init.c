@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:08:23 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/27 21:41:18 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:31:02 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,24 @@ char		map[6][6] = {{'1', '1', '1', '1', '1', '1'}, {'1', '0', '0', '1',
 			'0', '1'}, {'1', '0', '1', '0', '0', '1'}, {'1', '1', '0', '0', 'N',
 			'1'}, {'1', '0', '0', '0', '0', '1'}, {'1', '1', '1', '1', '1',
 			'1'}};
+
+static void	init_texture_img(void)
+{
+	t_texture_img	*texture_img;
+	t_data			*data;
+
+	data = get_t_data();
+	texture_img = get_texture_img();
+	texture_img[NORTH].img = mlx_xpm_file_to_image(data->mlx,
+			"./textures/blue_stones.xpm", &(texture_img[NORTH].width),
+			&(texture_img[NORTH].height));
+	// TODO エラーハンドリング書く（exit_freeのイメージ)
+	if (!(texture_img)[NORTH].img)
+		return ;
+	(texture_img)[NORTH].addr = mlx_get_data_addr((texture_img)[NORTH].img,
+			&(texture_img)[NORTH].bits_per_pixel,
+			&(texture_img)[NORTH].line_length, &(texture_img)[NORTH].endian);
+}
 
 static void	init_player(void)
 {
@@ -108,11 +126,10 @@ void	init_t_data(void)
 	data->img.img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel,
 			&data->img.line_length, &data->img.endian);
-
 	mlx_hook(data->win, ON_KEYDOWN, ON_KEYDOWN, key_event, data);
 	mlx_hook(data->win, ON_KEYUP, ON_KEYUP, key_event, data);
-	// mlx_key_hook(data->win, key_event, data);
 	mlx_loop_hook(data->mlx, render, data);
+	init_texture_img();
 	mlx_loop(data->mlx);
 
 	// for (int x = 0; x < WIDTH; x++)

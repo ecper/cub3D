@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/27 19:58:20 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/01/28 18:40:38 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,15 @@ typedef struct s_tex
 
 typedef struct s_area
 {
-	int		*color[MAX_COLOR];
+	int		color[MAX_COLOR];
 	bool	appear;
 }t_area;
 
 typedef struct s_map
 {
 	char	**mapinfo;
-	int		width;
+	int		map_h;
+	int		max_len;
 	int		height;
 }t_map;
 
@@ -102,6 +103,10 @@ typedef struct s_config
 	t_area	floor;
 	t_area	ceil;
 	t_map	map;
+	char	p_direction;
+	int		p_count;
+	int		x_position;
+	int		y_position;
 }t_config;
 
 typedef struct s_img_data
@@ -184,6 +189,18 @@ t_map			*read_configfile(int fd);
 
 //parser.c
 t_config		*parser(int fd);
+int				check_mapinfo_last(t_config *config, int line_id);
+
+//parser_util.c
+char			*ft_trim_white(const char *str);
+int				color_atoi(char *color_code);
+int				count_strarray(char **str);
+int				present_info(t_config *config);
+//line_util.c
+int				is_emptyline(char *line);
+int				is_texpath(char *line);
+int				is_color(char *line);
+int				judge_line(char *line);
 int				check_mapinfo_last(t_config *config, int line_id);
 
 #endif

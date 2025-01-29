@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/25 15:35:19 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/01/28 20:10:04 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ int	main(int argc,char **argv)
 	
 	fd = open_cubfile(argc, argv[1]); // openのエラーとエクステンションの確認
 	config =parser(fd);
+	free(config->path_ea.path);
+	free(config->path_no.path);
+	free(config->path_we.path);
+	free(config->path_so.path);
+	wp_free(&(config->map.mapinfo));
+	free(config);
 	//init_t_dataにconfigを渡して初期化する。
 	// init_t_data();
 

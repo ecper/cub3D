@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:21:31 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/27 21:22:41 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/30 02:40:19 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,48 @@ static void	change_player_pos(double dx, double dy)
 	player = get_player();
 	player->pos.x += dx;
 	player->pos.y += dy;
-	player->way.x += dx;
-	player->way.y += dy;
 }
 
 static void	move(int keycode)
 {
 	t_player	*player;
+	double		angle_speed;
 
 	player = get_player();
+	angle_speed = 0.03;
 	if (keycode == LEFT_ARROW_KEY)
-		player->is_left_angle = 1;
+		player->angle -= angle_speed;
 	else if (keycode == RIGHT_ARROW_KEY)
-		player->is_right_angle = 1;
+		player->angle += angle_speed;
 	else if (keycode == TOP_ARROW_KEY)
 		printf("TOP_ARROW_KEY PRESSED");
 	else if (keycode == DOWN_ARROW_KEY)
 		printf("DOWN_ARROW_KEY PRESSED");
+	if (player->angle > 2 * M_PI)
+		player->angle = 0;
+	if (player->angle < 0)
+		player->angle = 2 * M_PI;
 }
 
 int	key_event(int keycode, t_data *data)
 {
 	t_player *player;
+	double cos_angle;
+	double sin_angle;
 
 	player = get_player();
+	cos_angle = cos(player->angle) * 3;
+	sin_angle = sin(player->angle) * 3;
 	if (keycode == ESC_KEY)
 		close_window(data);
 	else if (keycode == W_KEY)
-		change_player_pos(0, -1);
+		change_player_pos(cos_angle, sin_angle);
 	else if (keycode == A_KEY)
-		change_player_pos(-1, 0);
+		change_player_pos(sin_angle, -cos_angle);
 	else if (keycode == S_KEY)
-		change_player_pos(0, 1);
+		change_player_pos(-cos_angle, -sin_angle);
 	else if (keycode == D_KEY)
-		change_player_pos(1, 0);
+		change_player_pos(-sin_angle, cos_angle);
 	else if (keycode == LEFT_ARROW_KEY || keycode == RIGHT_ARROW_KEY
 		|| keycode == TOP_ARROW_KEY || keycode == DOWN_ARROW_KEY)
 		move(keycode);

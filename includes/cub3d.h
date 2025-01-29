@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/28 15:49:47 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/30 02:06:52 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH 1280
+# define HEIGHT 720
 # define WINDOW_NAME "WE ARE THE WORLD"
 
 # define NORTH 0
@@ -29,7 +29,7 @@
 # define WEST 2
 # define EAST 3
 
-# define SQUARE_SIZE 50
+# define SQUARE_SIZE 64
 
 # define ON_KEYDOWN 2
 # define ON_KEYUP 3
@@ -58,6 +58,7 @@ typedef struct s_data
 	void			*mlx;
 	void			*win;
 	t_img_data		img;
+	char			**map;
 }					t_data;
 
 typedef struct s_vector
@@ -76,7 +77,8 @@ typedef struct s_player
 {
 	double			fov;
 	t_vector		pos;
-	t_vector		way;
+	// t_vector		way;
+	// t_vector		plane;
 	double			angle;
 	int				is_right_angle;
 	int				is_left_angle;

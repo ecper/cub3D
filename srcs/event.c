@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:21:31 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/30 02:40:19 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/31 05:59:51 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	change_player_pos(double dx, double dy)
 	t_player	*player;
 
 	player = get_player();
+	printf("dx: %f, dy: %f\n", dx, dy);
 	player->pos.x += dx;
 	player->pos.y += dy;
 }
@@ -58,8 +59,8 @@ int	key_event(int keycode, t_data *data)
 	double sin_angle;
 
 	player = get_player();
-	cos_angle = cos(player->angle) * 3;
-	sin_angle = sin(player->angle) * 3;
+	cos_angle = cos(player->angle) * 0.05;
+	sin_angle = sin(player->angle) * 0.05;
 	if (keycode == ESC_KEY)
 		close_window(data);
 	else if (keycode == W_KEY)

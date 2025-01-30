@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 00:43:49 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/31 03:08:53 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/31 06:02:42 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,11 @@ static void	clear_color(void)
 // }
 
 static void	draw_texture(double perp_wall_dist, int line_height,
-		double raydir_x, double raydir_y, int start_y, int i, int side)
+		double raydir_x, double raydir_y, int start_y, int end, int i, int side)
 {
 	t_data			*data;
 	t_texture_img	*texture_img;
 	t_player		*player;
-	int				end;
 	double			wall_x;
 	int				texX;
 	int				texY;
@@ -95,24 +94,18 @@ static void	draw_texture(double perp_wall_dist, int line_height,
 	step = 1.0 * texture_img[NORTH].height / line_height;
 	// 壁のどこに当たったか計算
 	if (side == 0)
-		wall_x = (double)((int)(player->pos.y / SQUARE_SIZE)) + perp_wall_dist
-			* (raydir_y);
+		wall_x = (player->pos.y) + perp_wall_dist * (raydir_y);
 	else
-		wall_x = (double)((int)(player->pos.x / SQUARE_SIZE)) + perp_wall_dist
-			* (raydir_x);
-	wall_x -= floor(wall_x);
-	// printf("wall_x: %f\n", wall_x);
+		wall_x = (player->pos.x) + perp_wall_dist * (raydir_x);
+	wall_x -= floor((wall_x));
 	// X座標の計算
 	texX = (int)(wall_x * (double)texture_img[NORTH].width);
-	// printf("texX: %d, texY: %d\n", texX, texY);
-	// fflush(0);
 	// 壁の向きに応じて反転
 	if (side == 0 && raydir_x > 0)
 		texX = texture_img[NORTH].width - texX - 1;
 	if (side == 1 && raydir_y < 0)
 		texX = texture_img[NORTH].width - texX - 1;
 	tex_pos = (start_y - (HEIGHT / 2) + (line_height / 2)) * step;
-	end = start_y + line_height;
 	while (start_y < end)
 	{
 		texY = (int)tex_pos & (texture_img[NORTH].height - 1);
@@ -198,13 +191,8 @@ double	fixed_dist(double x1, double y1, double x2, double y2, t_player *player)
 	return (fix_dist);
 }
 
-int	touch(double px, double py, t_data *data)
+int	touch(int x, int y, t_data *data)
 {
-	int	x;
-	int	y;
-
-	x = px / SQUARE_SIZE;
-	y = py / SQUARE_SIZE;
 	if (data->map[y][x] == '1' || data->map[y][x] == '2'
 		|| data->map[y][x] == '3' || data->map[y][x] == '4')
 		return (1);
@@ -216,8 +204,8 @@ int	get_color(double px, double py, t_data *data)
 	int	x;
 	int	y;
 
-	x = px / SQUARE_SIZE;
-	y = py / SQUARE_SIZE;
+	x = px;
+	y = py;
 	if (data->map[y][x] == '1')
 		return (create_trgb(1, 255, 255, 255));
 	else if (data->map[y][x] == '2')
@@ -243,56 +231,61 @@ void	draw_player_ray(t_player *player, t_data *data, double start_x, int i)
 	double	step_y;
 	double	perp_wall_dist;
 	double	dist;
-	double	height;
+	int		line_height;
 	int		start_y;
 	int		end;
 	int		side;
+	int		map_x;
+	int		map_y;
 
+	map_x = (int)(player->pos.x);
+	map_y = (int)(player->pos.y);
 	raydir_x = cos(start_x);
 	raydir_y = sin(start_x);
 	ray_x = player->pos.x;
 	ray_y = player->pos.y;
-	delta_dist_x = sqrt(1 + (raydir_y * raydir_y) / (raydir_x * raydir_x));
-	delta_dist_y = sqrt(1 + (raydir_x * raydir_x) / (raydir_y * raydir_y));
-	// // **X方向とY方向のステップを計算**
+	delta_dist_x = (raydir_x == 0) ? 1e30 : fabs(1 / raydir_x);
+	delta_dist_y = (raydir_y == 0) ? 1e30 : fabs(1 / raydir_y);
 	step_x = (raydir_x > 0) ? 1 : -1;
 	step_y = (raydir_y > 0) ? 1 : -1;
-	// // **次のX軸の壁とY軸の壁に到達する距離を計算**
-	dist_x = (step_x > 0) ? (ceil(ray_x) - ray_x) / raydir_x : (ray_x
-			- floor(ray_x)) / -raydir_x;
-	dist_y = (step_y > 0) ? (ceil(ray_y) - ray_y) / raydir_y : (ray_y
-			- floor(ray_y)) / -raydir_y;
-	while (!touch(ray_x, ray_y, data))
+	dist_x = (raydir_x > 0) ? (map_x + 1.0 - player->pos.x)
+		* delta_dist_x : (player->pos.x - map_x) * delta_dist_x;
+	dist_y = (raydir_y > 0) ? (map_y + 1.0 - player->pos.y)
+		* delta_dist_y : (player->pos.y - map_y) * delta_dist_y;
+	while (!touch(map_x, map_y, data))
 	{
 		if (dist_x < dist_y)
 		{
 			dist_x += delta_dist_x;
-			ray_x += step_x;
-			side = 0; // X軸にぶつかった
+			map_x += step_x;
+			side = 0;
 		}
 		else
 		{
 			dist_y += delta_dist_y;
-			ray_y += step_y;
-			side = 1; // Y軸にぶつかった
+			map_y += step_y;
+			side = 1;
 		}
 	}
 	if (side == 0)
 		perp_wall_dist = dist_x - delta_dist_x;
 	else
 		perp_wall_dist = dist_y - delta_dist_y;
-	dist = fixed_dist(player->pos.x, player->pos.y, ray_x, ray_y, player);
-	height = (HEIGHT / perp_wall_dist) * (WIDTH) / 10 ;
-	start_y = (HEIGHT - height) / 2;
-	end = start_y + height;
-	if (data->map[(int)(ray_y / SQUARE_SIZE)][(int)(ray_x
-			/ SQUARE_SIZE)] == '2')
-		draw_texture(perp_wall_dist / SQUARE_SIZE, height, raydir_x, raydir_y, start_y, i,
-			side);
+	dist = fixed_dist(player->pos.x, player->pos.y, map_x, map_y, player);
+	line_height = (int)(HEIGHT / perp_wall_dist) * 2;
+	start_y = -(line_height / 2) + (HEIGHT / 2);
+	if (start_y < 0)
+		start_y = 0;
+	end = (line_height / 2) + (HEIGHT / 2);
+	if (end >= HEIGHT)
+		end = HEIGHT - 1;
+	if (data->map[map_y][map_x] == '2')
+		draw_texture(perp_wall_dist, line_height, (raydir_x), (raydir_y),
+			start_y, end, i, side);
 	else
 		while (start_y < end)
 		{
-			my_mlx_pixel_put(&data->img, i, start_y, get_color(ray_x, ray_y,
+			my_mlx_pixel_put(&data->img, i, start_y, get_color(map_x, map_y,
 					data));
 			start_y++;
 		}

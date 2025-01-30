@@ -24,17 +24,10 @@ int	validation_path(t_config *config,char *line)
 	path = ft_trim_white(line);
 	len = ft_strlen(path);
 	if (len < 4 || ft_strncmp(path + len - 4, ".xpm", 4) != 0)
-	{	
-		print_error("Error:Only input texture path that must have .xpm");
-		return (0);
-	}
+		return (print_error("Error:Only input tex path that have .xpm"), 0);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-	{	
-		print_error("Error:Input correct texture path");
-		close(fd);
-		return (0);
-	}
+		return (print_error("Error:Input correct tex path"), close(fd), 0);
 	close (fd);
 	if (direction == NO && config->path_no.appear == false)
 	{
@@ -58,7 +51,7 @@ int	validation_path(t_config *config,char *line)
 	}
 	else
 	{
-		if(path)
+		if (path)
 		{	
 			free(path);
 			print_error("Error : identifier is one");
@@ -130,7 +123,7 @@ int	validation_color(t_config *config, char *line)
 	return (1);
 }
 
-int parsing_line(t_config *config, char *line, int line_id)
+int	parsing_line(t_config *config, char *line, int line_id)
 {
 	if (line_id == LINE_PATH)
 		return (validation_path(config, line));
@@ -222,7 +215,7 @@ char	**make_game_map(t_map *config_file)
 	while (i < array_size)
 		map[i++] = ft_strdup(config_file->mapinfo[start ++]);
 	map[i] = NULL;
-	return(map);
+	return (map);
 }
 
 int	get_maxarray_index(char **stringarray)
@@ -233,10 +226,10 @@ int	get_maxarray_index(char **stringarray)
 
 	i = 0;
 	max_len = 0;
-	while(stringarray[i] != NULL)
+	while (stringarray[i] != NULL)
 	{
 		len = ft_strlen(stringarray[i ++]);
-		if(len > max_len)
+		if (len > max_len)
 			max_len = len;
 	}
 	return (max_len);
@@ -253,7 +246,7 @@ void	map_strcpy(char *dst, const char *src)
 		return (len);
 	while (src[i] != '\0')
 	{
-		if(src[i] == '\n')
+		if (src[i] == '\n')
 			dst[i] = '2';
 		else
 			dst[i] = src[i];
@@ -357,11 +350,7 @@ int	check_inter(char **map, int x,int y)
 			if ((map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S'
 				|| map[i][j] == 'W' || map[i][j] == 'E')
 				&& see_aroundchar(map, j, i))
-				{
-					printf("error y=%d ,x = %d\n",i,j);
-					fflush(0);
-					return (1);
-				}
+				return (1);
 			j++;
 		}
 		i++;
@@ -392,8 +381,11 @@ void	validation_map(t_config *config, t_map *config_file, int i)
 
 	if (check_map_emptyline(config_file->mapinfo, i)
 		|| check_map_char(config_file->mapinfo, i)
-		|| check_map_start(config, config_file->mapinfo, i))
+		|| check_map_start(config, config_file->mapinfo, i)
+		|| !config->p_count)
 	{
+		if (!config->p_count)
+			print_error("Error:start position is one");
 		wp_free(&(config_file->mapinfo));
 		free(config_file);
 		free(config);
@@ -437,11 +429,11 @@ t_config	*parser(int fd)
 	{
 		//まず、ラインの種類を判断する。
 		line_id = judge_line(config_file->mapinfo[i]);
-		if(check_mapinfo_last(config,line_id))
+		if (check_mapinfo_last(config,line_id))
 			print_error("Enter only the necessary information and map information last.\n"),exit(1);
 		//ラインの種類に応じたparserに通す。
-		if(line_id!=LINE_EMPTY)
-			if(!(parsing_line(config,config_file->mapinfo[i],line_id)))
+		if (line_id!=LINE_EMPTY)
+			if (!(parsing_line(config,config_file->mapinfo[i],line_id)))
 				exit(1);
 		// printf("line type[%d] is %s",line_id,config_file->mapinfo[i]);
 		printf("\nconfin-check\n");
@@ -452,8 +444,8 @@ t_config	*parser(int fd)
 		printf("config,floor : color[R] = %d color[G] = %d color[B] = %d : apper %d\n",config->floor.color[0],config->floor.color[1],config->floor.color[2],config->floor.appear);
 		printf("config,ceil : color[R] = %d color[G] = %d color[B] = %d : apper %d\n",config->ceil.color[0],config->ceil.color[1],config->ceil.color[2],config->ceil.appear);
 		i++;
-		if(present_info(config))
-			break;
+		if (present_info(config))
+			break ;
 	}
 	while (is_emptyline(config_file->mapinfo[i]))
 		i++;

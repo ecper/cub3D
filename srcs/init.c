@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:08:23 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/29 01:47:22 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:53:31 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ char	**get_map(void)
 	map[0] = "111111111111111";
 	map[1] = "100000000000001";
 	map[2] = "100000000000001";
-	map[3] = "100000100000001";
+	map[3] = "100000200000001";
 	map[4] = "100000000000001";
-	map[5] = "100000010000001";
+	map[5] = "100000030000001";
 	map[6] = "100001000000001";
-	map[7] = "100000000000001";
+	map[7] = "100000040000001";
 	map[8] = "100000000000001";
 	map[9] = "111111111111111";
 	map[10] = NULL;
@@ -56,9 +56,9 @@ static void	init_player(void)
 
 	player = get_player();
 	player->fov = M_PI / 4;
-	player->angle = M_PI / 100;
-	player->pos.x = WIDTH / 2;
-	player->pos.y = HEIGHT / 2;
+	player->angle = 0;
+	player->pos.x = SQUARE_SIZE * 4;
+	player->pos.y = SQUARE_SIZE * 4;
 	// TODO change way by args (for example N, S, W, E)
 	// player->way.x = player_pos_x * 3;
 	// player->way.y = (player_pos_y / 2) * 3;

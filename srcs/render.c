@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 00:43:49 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/30 03:04:17 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:54:08 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,84 @@ static void	clear_color(void)
 	}
 }
 
+// static void	draw_texture(double hit_x, double hit_y, int line_height,
+// 		int start_x, int start_y, int i)
+// {
+// 	t_data			*data;
+// 	t_texture_img	*texture_img;
+// 	int				end;
+// 	double			wall_x;
+// 	int				texX;
+// 	int				texY;
+// 	double			step;
+// 	double			texPos;
+
+// 	texture_img = get_texture_img();
+// 	data = get_t_data();
+// 	step = 1.0 * texture_img[NORTH].height / line_height;
+// 	if (hit_x < hit_y)
+// 		wall_x = hit_y - floor(hit_y);
+// 	else
+// 		wall_x = hit_x - floor(hit_x);
+// 	texX = (int)(wall_x * (double)texture_img[NORTH].width);
+// 	// if (texX < 0)
+// 	// 	texX = 0;
+// 	// if (texX >= (double)texture_img[NORTH].width)
+// 	// 	texX = (double)texture_img[NORTH].width - 1;
+// 	if (hit_x < hit_y && cos(start_x) > 0)
+// 		texX = (double)texture_img[NORTH].width - texX - 1;
+// 	else if (hit_x > hit_y && sin(start_x) < 0)
+// 		texX = (double)texture_img[NORTH].width - texX - 1;
+// 	texPos = (start_y - (HEIGHT / 2) + (line_height / 2)) * step;
+// 	end = start_y + line_height;
+// 	while (start_y < end)
+// 	{
+// 		texY = (int)texPos & (texture_img[NORTH].height - 1);
+// 		// printf("texX: %d, texY: %d\n", texX, texY);
+// 		// fflush(0);
+// 		texPos += step;
+// 		my_mlx_pixel_put(&data->img, i, start_y,
+// 			(int)get_texture_pixel_color(texture_img[NORTH], texX, texY));
+// 		start_y++;
+// 	}
+// }
+
 static void	draw_texture(double hit_x, double hit_y, int line_height,
-		int start_y, int i)
+		int start_x, int start_y, int i, int side)
 {
 	t_data			*data;
 	t_texture_img	*texture_img;
 	int				end;
+	double			wall_x;
 	int				texX;
 	int				texY;
 	double			step;
 	double			texPos;
+	int				color;
 
 	texture_img = get_texture_img();
 	data = get_t_data();
 	step = 1.0 * texture_img[NORTH].height / line_height;
-	hit_x -= floor(hit_x);
-	texX = (int)(hit_x * (double)texture_img[NORTH].width);
-	texPos = (hit_y - (HEIGHT / 2) + (line_height / 2)) * step;
+	// 壁のどこに当たったか計算
+	if (side == 0)
+		wall_x = hit_y - floor(hit_y);
+	else
+		wall_x = hit_x - floor(hit_x);
+	// X座標の計算
+	texX = (int)(wall_x * (double)texture_img[NORTH].width);
+	// 壁の向きに応じて反転
+	if (side == 0 && cos(start_x) > 0)
+		texX = texture_img[NORTH].width - texX - 1;
+	if (side == 1 && sin(start_x) < 0)
+		texX = texture_img[NORTH].width - texX - 1;
+	texPos = (start_y - (HEIGHT / 2) + (line_height / 2)) * step;
 	end = start_y + line_height;
 	while (start_y < end)
 	{
 		texY = (int)texPos & (texture_img[NORTH].height - 1);
 		texPos += step;
-		my_mlx_pixel_put(&data->img, i, start_y,
-			(int)get_texture_pixel_color(texture_img[NORTH], texX, texY));
+		color = get_texture_pixel_color(texture_img[NORTH], texX, texY);
+		my_mlx_pixel_put(&data->img, i, start_y, color);
 		start_y++;
 	}
 }
@@ -117,133 +171,6 @@ static void	draw_map(void)
 					color);
 }
 
-// static void	draw_line(t_vector begin, t_vector end, int color)
-// {
-// 	t_data	*data;
-// 	double	slope;
-// 	double	intercept;
-// 	int		is_larger;
-
-// 	data = get_t_data();
-// 	if (end.x - begin.x != 0)
-// 		slope = (end.y - begin.y) / (end.x - begin.x);
-// 	else
-// 	{
-// 		draw_vertical_line(begin, end, color);
-// 		return ;
-// 	}
-// 	intercept = begin.y - (slope * begin.x);
-// 	if (begin.x < end.x)
-// 		is_larger = 0;
-// 	else
-// 		is_larger = 1;
-// 	while (1)
-// 	{
-// 		my_mlx_pixel_put(&data->img, begin.x, ((slope * begin.x) + intercept),
-// 			color);
-// 		if (!is_larger && begin.x < end.x)
-// 			begin.x++;
-// 		else if (is_larger && begin.x > end.x)
-// 			begin.x--;
-// 		else
-// 			break ;
-// 	}
-// }
-
-// static t_vector	get_beam(double angle)
-// {
-// 	t_player	*player;
-// 	double		x;
-// 	double		y;
-
-// 	player = get_player();
-// 	x = ((player->way.x - player->pos.x) * cos(angle)) - ((player->way.y
-// 				- player->pos.y) * sin(angle)) + player->pos.x;
-// 	y = ((player->way.x - player->pos.x) * sin(angle)) + ((player->way.y
-// 				- player->pos.y) * cos(angle)) + player->pos.y;
-// 	return ((t_vector){x, y});
-// }
-
-// static void	render_wall_line(t_vector *hitpos, int index)
-// {
-// 	t_player	*player;
-// 	double		wall_dist;
-// 	double		line_height;
-// 	double		draw_start;
-// 	double		draw_end;
-// 	t_vector	line_begin;
-// 	t_vector	line_end;
-
-// 	if (!hitpos)
-// 		return ;
-// 	player = get_player();
-// 	wall_dist = vector_mag(vector_sub(*hitpos, player->pos));
-// 	line_height = HEIGHT * WIDTH / wall_dist;
-// 	draw_start = -(line_height / 2) + HEIGHT / 2;
-// 	if (draw_start < 0)
-// 		draw_start = 0;
-// 	draw_end = line_height;
-// 	if (draw_end >= HEIGHT)
-// 		draw_end = HEIGHT;
-// 	line_begin = (t_vector){index, draw_start};
-// 	line_end = vector_add(line_begin, (t_vector){0, draw_end});
-// 	// draw_texture(line_begin, line_end, *hitpos, line_height);
-// 	draw_line(line_begin, line_end, create_trgb(1, 255, 0, 255));
-// 	free(hitpos);
-// }
-
-// static t_vector	**calc_wall_intersection(t_square *square, t_ray beam,
-// 		int *index)
-// {
-// 	int			i;
-// 	t_vector	**hitpos;
-
-// 	hitpos = (t_vector **)malloc(sizeof(t_vector *) * 2);
-// 	hitpos[(*index)] = calc_intersection(square->top, beam);
-// 	if (hitpos[(*index)] != NULL)
-// 		(*index)++;
-// 	hitpos[(*index)] = calc_intersection(square->down, beam);
-// 	if (hitpos[(*index)] != NULL)
-// 		(*index)++;
-// 	if (*index == 2)
-// 		return (hitpos);
-// 	hitpos[(*index)] = calc_intersection(square->left, beam);
-// 	if (hitpos[(*index)] != NULL && *index < 2)
-// 		(*index)++;
-// 	if (*index == 2)
-// 		return (hitpos);
-// 	hitpos[(*index)] = calc_intersection(square->right, beam);
-// 	if (hitpos[(*index)] != NULL && *index < 2)
-// 		(*index)++;
-// 	return (hitpos);
-// }
-
-// static void	check_wall_hit(t_ray beam, int index)
-// {
-// 	int			i;
-// 	t_square	*tmp;
-// 	t_vector	**hitpos;
-
-// 	tmp = *get_square();
-// 	i = 0;
-// 	while (tmp)
-// 	{
-// 		hitpos = calc_wall_intersection(tmp, beam, &i);
-// 		if (i == 2)
-// 		{
-// 			if (vector_mag(vector_sub(*hitpos[0],
-// 						beam.pos)) < vector_mag(vector_sub(*hitpos[1],
-// 						beam.pos)))
-// 				render_wall_line(hitpos[0], index);
-// 			else
-// 				render_wall_line(hitpos[1], index);
-// 		}
-// 		i = 0;
-// 		free(hitpos);
-// 		tmp = tmp->next;
-// 	}
-// }
-
 float	distance(float x, float y)
 {
 	return (sqrt(x * x + y * y));
@@ -270,9 +197,27 @@ int	touch(double px, double py, t_data *data)
 
 	x = px / SQUARE_SIZE;
 	y = py / SQUARE_SIZE;
-	if (data->map[y][x] == '1')
+	if (data->map[y][x] == '1' || data->map[y][x] == '2'
+		|| data->map[y][x] == '3' || data->map[y][x] == '4')
 		return (1);
 	return (0);
+}
+
+int	get_color(double px, double py, t_data *data)
+{
+	int	x;
+	int	y;
+
+	x = px / SQUARE_SIZE;
+	y = py / SQUARE_SIZE;
+	if (data->map[y][x] == '1')
+		return (create_trgb(1, 255, 255, 255));
+	else if (data->map[y][x] == '2')
+		return (create_trgb(1, 255, 0, 0));
+	else if (data->map[y][x] == '3')
+		return (create_trgb(1, 0, 255, 0));
+	else
+		return (create_trgb(1, 0, 0, 255));
 }
 
 // raycasting functions
@@ -282,30 +227,60 @@ void	draw_player_ray(t_player *player, t_data *data, double start_x, int i)
 	double	sin_angle;
 	double	ray_x;
 	double	ray_y;
+	double	dist_x;
+	double	dist_y;
+	double	step_x;
+	double	step_y;
 	double	dist;
 	double	height;
 	int		start_y;
 	int		end;
+	int		x;
+	int		y;
+	int		side;
 
 	cos_angle = cos(start_x);
 	sin_angle = sin(start_x);
 	ray_x = player->pos.x;
 	ray_y = player->pos.y;
+	// **X方向とY方向のステップを計算**
+	step_x = (cos_angle > 0) ? 1 : -1;
+	step_y = (sin_angle > 0) ? 1 : -1;
+	// **次のX軸の壁とY軸の壁に到達する距離を計算**
+	dist_x = (step_x > 0) ? (ceil(ray_x) - ray_x) / cos_angle : (ray_x
+			- floor(ray_x)) / -cos_angle;
+	dist_y = (step_y > 0) ? (ceil(ray_y) - ray_y) / sin_angle : (ray_y
+			- floor(ray_y)) / -sin_angle;
 	while (!touch(ray_x, ray_y, data))
 	{
-		ray_x += cos_angle;
-		ray_y += sin_angle;
+		if (dist_x < dist_y)
+		{
+			ray_x += step_x;
+			dist_x += 1 / fabs(cos_angle);
+			side = 0; // X軸にぶつかった
+		}
+		else
+		{
+			ray_y += step_y;
+			dist_y += 1 / fabs(sin_angle);
+			side = 1; // Y軸にぶつかった
+		}
 	}
 	dist = fixed_dist(player->pos.x, player->pos.y, ray_x, ray_y, player);
-	height = (SQUARE_SIZE / dist) * (WIDTH / 2);
+	height = (SQUARE_SIZE / dist) * (WIDTH);
 	start_y = (HEIGHT - height) / 2;
 	end = start_y + height;
-	draw_texture(ray_x, ray_y, height, start_y, i);
-	// while (start_y < end)
-	// {
-	// 	my_mlx_pixel_put(&data->img, i, start_y, create_trgb(1, 255, 255, 255));
-	// 	start_y++;
-	// }
+	x = ray_x / SQUARE_SIZE;
+	y = ray_y / SQUARE_SIZE;
+	if (data->map[y][x] == '2')
+		draw_texture(ray_x, ray_y, height, start_x, start_y, i, side);
+	else
+		while (start_y < end)
+		{
+			my_mlx_pixel_put(&data->img, i, start_y, get_color(ray_x, ray_y,
+					data));
+			start_y++;
+		}
 }
 
 static void	calc_player_way(void)

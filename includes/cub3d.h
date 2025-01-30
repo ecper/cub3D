@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/30 02:06:52 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/30 22:01:31 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <unistd.h>
 
 # define WIDTH 1280
-# define HEIGHT 720
+# define HEIGHT 700
 # define WINDOW_NAME "WE ARE THE WORLD"
 
 # define NORTH 0

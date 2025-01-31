@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 22:18:35 by soaoki            #+#    #+#             */
-/*   Updated: 2024/08/22 16:12:37 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 03:59:24 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i] != 0)
 		i++;
 	return (i);

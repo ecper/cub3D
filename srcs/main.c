@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 03:41:31 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 04:02:18 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,22 @@ int	open_cubfile(int argc, char *filename)
 	int	fd;
 
 	if (argc != 2)
+	{
 		print_error("please input one file that have a .cub extension");
+		exit(1);
+	}
 	len = ft_strlen(filename);
 	if (len < 4 || ft_strncmp(filename + len - 4, ".cub", 4) != 0)
+	{
 		print_error("The file must have a .cub extension");
+		exit (1);
+	}
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
+	{
 		print_error("problem loading the file.");
+		exit(1);
+	}
 	return (fd);
 }
 

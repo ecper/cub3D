@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_util.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/31 20:22:04 by soaoki            #+#    #+#             */
+/*   Updated: 2025/01/31 20:22:07 by soaoki           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
@@ -56,11 +67,28 @@ int	count_strarray(char **str)
 	return (i);
 }
 
-int present_info(t_config *config)
+int	present_info(t_config *config)
 {
 	if (config->ceil.appear && config->floor.appear && config->path_ea.appear
 		&&config->path_no.appear && config->path_so.appear
 		&& config->path_we.appear)
 		return (1);
 	return (0);
+}
+
+int	get_maxarray_index(char **stringarray)
+{
+	int	i;
+	int	len;
+	int	max_len;
+
+	i = 0;
+	max_len = 0;
+	while (stringarray[i] != NULL)
+	{
+		len = ft_strlen(stringarray[i ++]);
+		if (len > max_len)
+			max_len = len;
+	}
+	return (max_len);
 }

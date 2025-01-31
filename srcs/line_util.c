@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   line_util.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/31 19:15:57 by soaoki            #+#    #+#             */
+/*   Updated: 2025/02/01 00:52:32 by soaoki           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int	is_emptyline(char *line)
@@ -48,7 +60,7 @@ int	judge_line(char *line)
 		return (LINE_MAP);
 }
 
-int	check_mapinfo_last(t_config *config, int line_id)
+void	check_mapinfo_last(t_config *config, t_map *config_file, int line_id)
 {
 	if (line_id == LINE_MAP)
 	{
@@ -57,7 +69,10 @@ int	check_mapinfo_last(t_config *config, int line_id)
 			&& config->path_so.appear && config->path_we.appear)
 			return (0);
 		else
-			return (1);
+		{
+			print_error("Enter only config info and map info last.\n");
+			free_exit(config, config_file);
+		}
 	}
 	else
 		return (0);

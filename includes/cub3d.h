@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/28 18:40:38 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 00:51:57 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,24 +183,58 @@ int				render(t_data *data);
 //error.c
 void			print_error(char *msg);
 void			wp_free(char ***str);
+void			free_configfile(t_map *config_file);
+void			free_config(t_config *config);
+void			all_free(t_config *config, t_map *config_file);
+void			free_exit(t_config *config, t_map *config_file);
 
 //readfile.c
 t_map			*read_configfile(int fd);
 
 //parser.c
 t_config		*parser(int fd);
-int				check_mapinfo_last(t_config *config, int line_id);
+int				parsing_line(t_config *config, char *line, int line_id);
+
+//parser_path.c
+int				validation_path(t_config *config, char *line);
+
+//parser_color.c
+int				count_char(const char *str, char target);
+int				validation_color(t_config *config, char *line);
+char			**check_numarray(char *line);
+int				set_color(t_config *config, char **color_array,
+					int color_place);
 
 //parser_util.c
 char			*ft_trim_white(const char *str);
 int				color_atoi(char *color_code);
 int				count_strarray(char **str);
 int				present_info(t_config *config);
+int				get_maxarray_index(char **stringarray);
+
 //line_util.c
 int				is_emptyline(char *line);
 int				is_texpath(char *line);
 int				is_color(char *line);
 int				judge_line(char *line);
-int				check_mapinfo_last(t_config *config, int line_id);
+void				check_mapinfo_last(t_config *config, t_map *config_file, int line_id);
+
+//map.c
+int				check_map_emptyline(char **map, int i);
+int				check_map_char(char **map, int i);
+int				check_map_start(t_config *config, char **map, int i);
+void			validation_map(t_config *config, t_map *config_file, int i);
+
+//map_util.c
+char			**make_game_map(t_map *config_file);
+void			map_strcpy(char *dst, const char *src);
+char			**make_validation_map(char **map);
+
+//map_surround.c
+int				check_horizon(char **map, int x, int y);
+int				check_verticall(char **map, int x, int y);
+int				see_aroundchar(char **map, int point_x, int point_y);
+int				check_inter(char **map, int x, int y);
+int				check_surroundwall(char **map);
 
 #endif

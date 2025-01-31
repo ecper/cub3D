@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:15:57 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 02:12:31 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:17:20 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	check_mapinfo_last(t_config *config, t_map *config_file, int line_id)
 		if (config->ceil.appear && config->floor.appear
 			&& config->path_ea.appear && config->path_no.appear
 			&& config->path_so.appear && config->path_we.appear)
-			return (0);
+			return ;
 		else
 		{
 			print_error("Enter only config info and map info last.\n");
@@ -75,5 +75,5 @@ void	check_mapinfo_last(t_config *config, t_map *config_file, int line_id)
 		}
 	}
 	else
-		return (0);
+		return ;
 }

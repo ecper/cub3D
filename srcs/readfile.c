@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 03:03:29 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 03:03:58 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 03:43:08 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ t_map	*read_configfile(int fd)
 	}
 	close(fd);
 	if (!buff || !(buff->mapinfo))
-		print_error("Error\n Could not load map");
+		print_error("Could not load map");
 	return (buff);
 }

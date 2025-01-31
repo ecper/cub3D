@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:04:30 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 00:04:14 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 03:41:40 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	check_surroundwall(char **map)
 	if (check_horizon(map, x, y) || check_verticall(map, x, y)
 		||check_inter(map, x, y))
 	{
-		print_error("Error : the map must be surrounded by walls");
+		print_error("the map must be surrounded by walls");
 		return (0);
 	}
 	return (1);

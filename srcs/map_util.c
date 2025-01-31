@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:11:43 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 03:02:20 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 03:13:41 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,11 @@ char	**make_game_map(t_map *config_file)
 
 void	map_strcpy(char *dst, const char *src)
 {
-	size_t	i;
-	size_t	len;
+	int	i;
 
-	len = ft_strlen((char *)src);
 	i = 0;
 	if (dst == NULL || src == NULL)
-		return (len);
+		return ;
 	while (src[i] != '\0')
 	{
 		if (src[i] == '\n')
@@ -46,7 +44,6 @@ void	map_strcpy(char *dst, const char *src)
 			dst[i] = src[i];
 		i++;
 	}
-	return (len);
 }
 
 char	**make_validation_map(char **map)

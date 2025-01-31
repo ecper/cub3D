@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:21:00 by soaoki            #+#    #+#             */
-/*   Updated: 2025/01/31 23:32:59 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 03:42:33 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**check_numarray(char *line)
 	if (count_strarray(result) != 3 || num_comma != 2)
 	{
 		wp_free(&result);
-		print_error("Error : Enter only three colors R, G, B");
+		print_error("input only three colors R, G, B");
 		return (NULL);
 	}
 	return (result);
@@ -67,7 +67,7 @@ int	set_color(t_config *config, char **color_array, int color_place)
 			|| config->ceil.color[i] == ATOI_ERROR)
 		{	
 			wp_free(&color_array);
-			print_error("Error : color range is from 0 to 255,only digit");
+			print_error("color range is from 0 to 255,only digit");
 			return (0);
 		}
 		i ++;

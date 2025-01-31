@@ -6,74 +6,99 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 22:57:25 by anakin            #+#    #+#             */
-/*   Updated: 2024/11/04 07:02:30 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/01/24 17:47:13 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"	
+#include "get_next_line.h"
+#include <stdio.h>
 
-static char	*function_name(int fd, char *buf, char *backup)
+char	*find_newline(int fd, char *str)
 {
-	int		read_line;
-	char	*char_temp;
+	char	*buff;
+	int		rd_byte;
 
-	read_line = 1;
-	while (read_line != '\0')
+	buff = (char *)gnl_calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (!buff)
+		return (NULL);
+	rd_byte = 1;
+	while (!gnl_strchr(buff, '\n') && rd_byte != 0)
 	{
-		read_line = read(fd, buf, BUFFER_SIZE);
-		if (read_line == -1)
-			return (0);
-		else if (read_line == 0)
-			break ;
-		buf[read_line] = '\0';
-		if (!backup)
-			backup = ft_strdup("");
-		char_temp = backup;
-		backup = ft_strjoin(char_temp, buf);
-		free(char_temp);
-		char_temp = NULL;
-		if (ft_strchr (buf, '\n'))
-			break ;
+		rd_byte = read(fd, buff, BUFFER_SIZE);
+		if (rd_byte == -1)
+			return (free(str), free(buff), NULL);
+		buff[rd_byte] = '\0';
+		str = gnl_strjoin(str, buff);
 	}
-	return (backup);
+	free(buff);
+	if (!*str)
+		return (free(str), NULL);
+	return (str);
 }
 
-static char	*extract(char *line)
+char	*make_line(char *txt)
 {
-	size_t	count;
-	char	*backup;
+	char	*newline;
+	int		i;
 
-	count = 0;
-	while (line[count] != '\n' && line[count] != '\0')
-		count++;
-	if (line[count] == '\0' || line[1] == '\0')
-		return (0);
-	backup = ft_substr(line, count + 1, ft_strlen(line) - count);
-	if (*backup == '\0')
+	i = 0;
+	while (txt[i] != '\0' && txt[i] != '\n')
+		i++;
+	newline = (char *)malloc(sizeof(char) * (i + 2));
+	if (!newline)
+		return (NULL);
+	i = 0;
+	while (txt[i] != '\n' && txt[i] != '\0')
 	{
-		free(backup);
-		backup = NULL;
+		newline[i] = txt[i];
+		i++;
 	}
-	line[count + 1] = '\0';
-	return (backup);
+	newline[i] = '\n';
+	newline[i + 1] = '\0';
+	return (newline);
+}
+
+char	*next_text(char *text)
+{
+	size_t	i;
+	size_t	j;
+	char	*newt;
+
+	if (!(gnl_strchr(text, '\n')) || !text)
+	{
+		return (NULL);
+	}
+	i = 0;
+	while (text[i] != '\n' && text[i] != '\0')
+		i++;
+	newt = (char *)malloc(sizeof(char) * (gnl_strlen(text) - i + 1));
+	if (!newt)
+		return (NULL);
+	i++;
+	j = 0;
+	while (text[i] != '\0')
+		newt[j++] = text[i++];
+	newt[j] = '\0';
+	free(text);
+	return (newt);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*line;
-	char		*buf;
-	static char	*backup;
+	static char	*text;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
-		return (0);
-	line = function_name(fd, buf, backup);
-	free(buf);
-	buf = NULL;
-	if (!line)
+	text = find_newline(fd, text);
+	if (!text)
+	{
 		return (NULL);
-	backup = extract(line);
+	}
+	if (gnl_strchr(text, '\n'))
+		line = make_line(text);
+	else
+		line = text;
+	text = next_text(text);
 	return (line);
 }

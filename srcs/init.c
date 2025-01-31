@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:08:23 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/31 23:16:53 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 01:01:12 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	init_texture_img(int dir, char *path)
 			&(texture_img)[dir].endian);
 }
 
-// initialisation functions
 char	**get_map(void)
 {
 	char	**map;

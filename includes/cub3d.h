@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/31 23:59:51 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 01:02:11 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define A_KEY 97
 # define S_KEY 115
 # define D_KEY 100
+
 # define LEFT_ARROW_KEY 65361
 # define TOP_ARROW_KEY 65362
 # define RIGHT_ARROW_KEY 65363
@@ -83,7 +84,16 @@ typedef struct s_player_ray
 	int			line_height;
 	int			start_y;
 	int			end_y;
+	int			side;
 }				t_player_ray;
+
+typedef struct s_tex_calc
+{
+	int			tex_x;
+	int			tex_y;
+	double		tex_pos;
+	double		step;
+}				t_tex_calc;
 
 // typedef struct s_ray
 // {
@@ -120,7 +130,6 @@ int				open_cubfile(int argc, char *filename);
 // global.c
 t_data			*get_t_data(void);
 t_player		*get_player(void);
-// t_square			**get_square(void);
 t_texture_img	*get_texture_img(void);
 
 // init.c
@@ -145,14 +154,19 @@ t_vector		vector_add(t_vector a, t_vector b);
 t_vector		vector_sub(t_vector a, t_vector b);
 double			vector_mag(t_vector a);
 
-// ray.c
-// t_ray				with2p(t_vector begin, t_vector end);
-// t_vector			ray_begin(t_ray ray);
-// t_vector			ray_end(t_ray ray);
-// t_vector			*calc_intersection(t_ray ray1, t_ray ray2);
+// texture.c
+void			draw_texture(t_player_ray player_ray, int i);
 
+// raycastinc.c
+void			init_player_ray(t_player_ray *player_ray, int map_x, int map_y,
+					double start_x);
+void			calc_player_ray(t_player_ray *player_ray, int map_x, int map_y,
+					double start_x);
 // render.c
 int				render(t_data *data);
+
+// draw.c
+void			draw(void);
 
 // error.c
 int				open_ber_file(int argc, char *filename);

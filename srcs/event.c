@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:21:31 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/31 23:58:11 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 01:00:17 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ static void	move(int keycode)
 
 int	key_event(int keycode, t_data *data)
 {
-	t_player *player;
-	double cos_angle;
-	double sin_angle;
+	double		cos_angle;
+	double		sin_angle;
+	t_player	*player;
 
 	player = get_player();
 	cos_angle = cos(player->angle) * 0.05;

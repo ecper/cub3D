@@ -2,7 +2,7 @@
 NAME = Cub3D
 SRC = srcs/main.c srcs/global.c srcs/init.c srcs/free.c \
  	srcs/event.c srcs/utils.c srcs/vector.c \
-	srcs/render.c 
+	srcs/render/raycasting.c srcs/render/texture.c srcs/render/render.c srcs/render/draw.c
 OBJS = $(SRC:%.c=%.o)
 
 # MiniLibX のパス

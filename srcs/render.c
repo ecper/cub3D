@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 00:43:49 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/31 06:02:42 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 00:03:34 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,50 +33,19 @@ static void	clear_color(void)
 	}
 }
 
-// static void	draw_texture(double hit_x, double hit_y, int line_height,
-// 		int start_x, int start_y, int i)
-// {
-// 	t_data			*data;
-// 	t_texture_img	*texture_img;
-// 	int				end;
-// 	double			wall_x;
-// 	int				texX;
-// 	int				texY;
-// 	double			step;
-// 	double			texPos;
+static int	check_texture_dir(double raydir_x, double raydir_y, int side)
+{
+	if (raydir_y >= 0 && ((raydir_x >= 0 || raydir_x <= 0)) && side == 1)
+		return (NORTH);
+	else if (raydir_x >= 0 && (raydir_y >= 0 || raydir_y <= 0) && side == 0)
+		return (WEST);
+	else if (raydir_x <= 0 && (raydir_y <= 0 || raydir_y >= 0) && side == 0)
+		return (EAST);
+	else
+		return (SOUTH);
+}
 
-// 	texture_img = get_texture_img();
-// 	data = get_t_data();
-// 	step = 1.0 * texture_img[NORTH].height / line_height;
-// 	if (hit_x < hit_y)
-// 		wall_x = hit_y - floor(hit_y);
-// 	else
-// 		wall_x = hit_x - floor(hit_x);
-// 	texX = (int)(wall_x * (double)texture_img[NORTH].width);
-// 	// if (texX < 0)
-// 	// 	texX = 0;
-// 	// if (texX >= (double)texture_img[NORTH].width)
-// 	// 	texX = (double)texture_img[NORTH].width - 1;
-// 	if (hit_x < hit_y && cos(start_x) > 0)
-// 		texX = (double)texture_img[NORTH].width - texX - 1;
-// 	else if (hit_x > hit_y && sin(start_x) < 0)
-// 		texX = (double)texture_img[NORTH].width - texX - 1;
-// 	texPos = (start_y - (HEIGHT / 2) + (line_height / 2)) * step;
-// 	end = start_y + line_height;
-// 	while (start_y < end)
-// 	{
-// 		texY = (int)texPos & (texture_img[NORTH].height - 1);
-// 		// printf("texX: %d, texY: %d\n", texX, texY);
-// 		// fflush(0);
-// 		texPos += step;
-// 		my_mlx_pixel_put(&data->img, i, start_y,
-// 			(int)get_texture_pixel_color(texture_img[NORTH], texX, texY));
-// 		start_y++;
-// 	}
-// }
-
-static void	draw_texture(double perp_wall_dist, int line_height,
-		double raydir_x, double raydir_y, int start_y, int end, int i, int side)
+static void	draw_texture(t_player_ray player_ray, int i, int side)
 {
 	t_data			*data;
 	t_texture_img	*texture_img;
@@ -87,32 +56,34 @@ static void	draw_texture(double perp_wall_dist, int line_height,
 	double			step;
 	double			tex_pos;
 	int				color;
+	int				texture_dir;
 
 	texture_img = get_texture_img();
 	data = get_t_data();
 	player = get_player();
-	step = 1.0 * texture_img[NORTH].height / line_height;
+	texture_dir = check_texture_dir(player_ray.raydir_x, player_ray.raydir_y, side);
+	step = 1.0 * texture_img[texture_dir].height / player_ray.line_height;
 	// 壁のどこに当たったか計算
 	if (side == 0)
-		wall_x = (player->pos.y) + perp_wall_dist * (raydir_y);
+		wall_x = (player->pos.y) + player_ray.perp_wall_dist * (player_ray.raydir_y);
 	else
-		wall_x = (player->pos.x) + perp_wall_dist * (raydir_x);
+		wall_x = (player->pos.x) + player_ray.perp_wall_dist * (player_ray.raydir_x);
 	wall_x -= floor((wall_x));
 	// X座標の計算
-	texX = (int)(wall_x * (double)texture_img[NORTH].width);
+	texX = (int)(wall_x * (double)texture_img[texture_dir].width);
 	// 壁の向きに応じて反転
-	if (side == 0 && raydir_x > 0)
-		texX = texture_img[NORTH].width - texX - 1;
-	if (side == 1 && raydir_y < 0)
-		texX = texture_img[NORTH].width - texX - 1;
-	tex_pos = (start_y - (HEIGHT / 2) + (line_height / 2)) * step;
-	while (start_y < end)
+	if (side == 0 && player_ray.raydir_x > 0)
+		texX = texture_img[texture_dir].width - texX - 1;
+	if (side == 1 && player_ray.raydir_y < 0)
+		texX = texture_img[texture_dir].width - texX - 1;
+	tex_pos = (player_ray.start_y - (HEIGHT / 2) + (player_ray.line_height / 2)) * step;
+	while (player_ray.start_y < player_ray.end_y)
 	{
-		texY = (int)tex_pos & (texture_img[NORTH].height - 1);
+		texY = (int)tex_pos & (texture_img[texture_dir].height - 1);
 		tex_pos += step;
-		color = get_texture_pixel_color(texture_img[NORTH], texX, texY);
-		my_mlx_pixel_put(&data->img, i, start_y, color);
-		start_y++;
+		color = get_texture_pixel_color(texture_img[texture_dir], texX, texY);
+		my_mlx_pixel_put(&data->img, i, player_ray.start_y, color);
+		player_ray.start_y++;
 	}
 }
 
@@ -144,51 +115,9 @@ static void	draw_horizontal_line(int start, int end, int y, int color)
 	}
 }
 
-static void	draw_square(int x, int y, int size, int color)
-{
-	t_data	*data;
-	int		i;
-
-	data = get_t_data();
-	draw_vertical_line(y, size, x, color);
-	draw_horizontal_line(x, size, y, color);
-	draw_vertical_line(y, size, x + size, color);
-	draw_horizontal_line(x, y + size, y, color);
-}
-
-static void	draw_map(void)
-{
-	char	**map;
-	int		color;
-	t_data	*data;
-
-	data = get_t_data();
-	map = data->map;
-	color = 0x0000FF;
-	for (int y = 0; map[y]; y++)
-		for (int x = 0; map[y][x]; x++)
-			if (map[y][x] == '1')
-				draw_square(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE,
-					color);
-}
-
 float	distance(float x, float y)
 {
 	return (sqrt(x * x + y * y));
-}
-
-double	fixed_dist(double x1, double y1, double x2, double y2, t_player *player)
-{
-	double	delta_x;
-	double	delta_y;
-	double	angle;
-	double	fix_dist;
-
-	delta_x = x2 - x1;
-	delta_y = y2 - y1;
-	angle = atan2(delta_y, delta_x) - player->angle;
-	fix_dist = distance(delta_x, delta_y) * cos(angle);
-	return (fix_dist);
 }
 
 int	touch(int x, int y, t_data *data)
@@ -216,79 +145,109 @@ int	get_color(double px, double py, t_data *data)
 		return (create_trgb(1, 0, 0, 255));
 }
 
+static void	draw_celling(int start_y, int x)
+{
+	t_data	*data;
+	int		celling_start;
+	int		celling_end;
+
+	celling_start = 0;
+	celling_end = start_y;
+	data = get_t_data();
+	while (celling_start < celling_end)
+	{
+		my_mlx_pixel_put(&data->img, x, celling_start, create_trgb(1, 255, 255,
+				0));
+		celling_start++;
+	}
+}
+
+static void	draw_floor(int end_y, int x)
+{
+	t_data	*data;
+	int		floor_start;
+	int		floor_end;
+
+	floor_start = end_y;
+	floor_end = HEIGHT;
+	data = get_t_data();
+	while (floor_start < floor_end)
+	{
+		my_mlx_pixel_put(&data->img, x, floor_start, create_trgb(1, 0, 255, 0));
+		floor_start++;
+	}
+}
+
 // raycasting functions
 void	draw_player_ray(t_player *player, t_data *data, double start_x, int i)
 {
-	double	raydir_x;
-	double	raydir_y;
-	double	ray_x;
-	double	ray_y;
-	double	delta_dist_x;
-	double	delta_dist_y;
-	double	dist_x;
-	double	dist_y;
-	double	step_x;
-	double	step_y;
-	double	perp_wall_dist;
-	double	dist;
-	int		line_height;
-	int		start_y;
-	int		end;
-	int		side;
-	int		map_x;
-	int		map_y;
+	t_player_ray	player_ray;
+	int				side;
+	int				map_x;
+	int				map_y;
 
+	// double	raydir_x;
+	// double	raydir_y;
+	// double	ray_x;
+	// double	ray_y;
+	// double	delta_dist_x;
+	// double	delta_dist_y;
+	// double	dist_x;
+	// double	dist_y;
+	// double	step_x;
+	// double	step_y;
+	// double	perp_wall_dist;
+	// int		line_height;
+	// int		start_y;
+	// int		end_y;
+	// int		side;
 	map_x = (int)(player->pos.x);
 	map_y = (int)(player->pos.y);
-	raydir_x = cos(start_x);
-	raydir_y = sin(start_x);
-	ray_x = player->pos.x;
-	ray_y = player->pos.y;
-	delta_dist_x = (raydir_x == 0) ? 1e30 : fabs(1 / raydir_x);
-	delta_dist_y = (raydir_y == 0) ? 1e30 : fabs(1 / raydir_y);
-	step_x = (raydir_x > 0) ? 1 : -1;
-	step_y = (raydir_y > 0) ? 1 : -1;
-	dist_x = (raydir_x > 0) ? (map_x + 1.0 - player->pos.x)
-		* delta_dist_x : (player->pos.x - map_x) * delta_dist_x;
-	dist_y = (raydir_y > 0) ? (map_y + 1.0 - player->pos.y)
-		* delta_dist_y : (player->pos.y - map_y) * delta_dist_y;
+	player_ray.raydir_x = cos(start_x);
+	player_ray.raydir_y = sin(start_x);
+	player_ray.ray_x = player->pos.x;
+	player_ray.ray_y = player->pos.y;
+	player_ray.delta_dist_x = (player_ray.raydir_x == 0) ? 1e30 : fabs(1
+			/ player_ray.raydir_x);
+	player_ray.delta_dist_y = (player_ray.raydir_y == 0) ? 1e30 : fabs(1
+			/ player_ray.raydir_y);
+	player_ray.step_x = (player_ray.raydir_x > 0) ? 1 : -1;
+	player_ray.step_y = (player_ray.raydir_y > 0) ? 1 : -1;
+	player_ray.dist_x = (player_ray.raydir_x > 0) ? (map_x + 1.0
+			- player->pos.x) * player_ray.delta_dist_x : (player->pos.x - map_x)
+		* player_ray.delta_dist_x;
+	player_ray.dist_y = (player_ray.raydir_y > 0) ? (map_y + 1.0
+			- player->pos.y) * player_ray.delta_dist_y : (player->pos.y - map_y)
+		* player_ray.delta_dist_y;
 	while (!touch(map_x, map_y, data))
 	{
-		if (dist_x < dist_y)
+		if (player_ray.dist_x < player_ray.dist_y)
 		{
-			dist_x += delta_dist_x;
-			map_x += step_x;
+			player_ray.dist_x += player_ray.delta_dist_x;
+			map_x += player_ray.step_x;
 			side = 0;
 		}
 		else
 		{
-			dist_y += delta_dist_y;
-			map_y += step_y;
+			player_ray.dist_y += player_ray.delta_dist_y;
+			map_y += player_ray.step_y;
 			side = 1;
 		}
 	}
 	if (side == 0)
-		perp_wall_dist = dist_x - delta_dist_x;
+		player_ray.perp_wall_dist = player_ray.dist_x - player_ray.delta_dist_x;
 	else
-		perp_wall_dist = dist_y - delta_dist_y;
-	dist = fixed_dist(player->pos.x, player->pos.y, map_x, map_y, player);
-	line_height = (int)(HEIGHT / perp_wall_dist) * 2;
-	start_y = -(line_height / 2) + (HEIGHT / 2);
-	if (start_y < 0)
-		start_y = 0;
-	end = (line_height / 2) + (HEIGHT / 2);
-	if (end >= HEIGHT)
-		end = HEIGHT - 1;
-	if (data->map[map_y][map_x] == '2')
-		draw_texture(perp_wall_dist, line_height, (raydir_x), (raydir_y),
-			start_y, end, i, side);
-	else
-		while (start_y < end)
-		{
-			my_mlx_pixel_put(&data->img, i, start_y, get_color(map_x, map_y,
-					data));
-			start_y++;
-		}
+		player_ray.perp_wall_dist = player_ray.dist_y - player_ray.delta_dist_y;
+	player_ray.line_height = (int)(HEIGHT / player_ray.perp_wall_dist) * 2;
+	player_ray.start_y = -(player_ray.line_height / 2) + (HEIGHT / 2);
+	if (player_ray.start_y < 0)
+		player_ray.start_y = 0;
+	player_ray.end_y = (player_ray.line_height / 2) + (HEIGHT / 2);
+	if (player_ray.end_y >= HEIGHT)
+		player_ray.end_y = HEIGHT - 1;
+	draw_celling(player_ray.start_y, i);
+	draw_texture(player_ray, i, side);
+	draw_floor(player_ray.end_y, i);
 }
 
 static void	calc_player_way(void)
@@ -313,23 +272,11 @@ static void	calc_player_way(void)
 	}
 }
 
-static void	draw_point(t_vector pos)
-{
-	t_data	*data;
-
-	data = get_t_data();
-	my_mlx_pixel_put(&data->img, pos.x, pos.y, create_trgb(1, 255, 255, 255));
-}
-
 int	render(t_data *data)
 {
 	t_player *player = get_player();
 	clear_color();
-	// draw_map();
-	// draw_square();
-	// draw_point(player->pos);
 	calc_player_way();
-	// draw_line(player->pos, player->way, create_trgb(1, 255, 255, 255));
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 	return (0);
 }

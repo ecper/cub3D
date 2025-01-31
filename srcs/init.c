@@ -6,28 +6,27 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:08:23 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/31 05:30:06 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/31 23:16:53 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	init_texture_img(void)
+static void	init_texture_img(int dir, char *path)
 {
 	t_texture_img	*texture_img;
 	t_data			*data;
 
 	data = get_t_data();
 	texture_img = get_texture_img();
-	texture_img[NORTH].img = mlx_xpm_file_to_image(data->mlx,
-			"./textures/eagle.xpm", &(texture_img[NORTH].width),
-			&(texture_img[NORTH].height));
+	texture_img[dir].img = mlx_xpm_file_to_image(data->mlx, path,
+			&(texture_img[dir].width), &(texture_img[dir].height));
 	// TODO エラーハンドリング書く（exit_freeのイメージ)
-	if (!(texture_img)[NORTH].img)
+	if (!(texture_img)[dir].img)
 		return ;
-	(texture_img)[NORTH].addr = mlx_get_data_addr((texture_img)[NORTH].img,
-			&(texture_img)[NORTH].bits_per_pixel,
-			&(texture_img)[NORTH].line_length, &(texture_img)[NORTH].endian);
+	(texture_img)[dir].addr = mlx_get_data_addr((texture_img)[dir].img,
+			&(texture_img)[dir].bits_per_pixel, &(texture_img)[dir].line_length,
+			&(texture_img)[dir].endian);
 }
 
 // initialisation functions
@@ -59,30 +58,7 @@ static void	init_player(void)
 	player->angle = 0;
 	player->pos.x = 4;
 	player->pos.y = 4;
-	// TODO change way by args (for example N, S, W, E)
-	// player->way.x = player_pos_x * 3;
-	// player->way.y = (player_pos_y / 2) * 3;
 }
-
-// static void	init_square(void)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 0;
-// 	j = 0;
-// 	while (i < 6)
-// 	{
-// 		j = 0;
-// 		while (j < 6)
-// 		{
-// 			if (map[i][j] == '1')
-// 				add_square(create_square(i * SQUARE_SIZE, j * SQUARE_SIZE));
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
 
 void	init_t_data(void)
 {
@@ -90,7 +66,6 @@ void	init_t_data(void)
 	t_player	*player;
 
 	init_player();
-	// init_square();
 	player = get_player();
 	data = get_t_data();
 	data->map = get_map();
@@ -102,6 +77,9 @@ void	init_t_data(void)
 	mlx_hook(data->win, ON_KEYDOWN, ON_KEYDOWN, key_event, data);
 	mlx_hook(data->win, ON_KEYUP, ON_KEYUP, key_event, data);
 	mlx_loop_hook(data->mlx, render, data);
-	init_texture_img();
+	init_texture_img(NORTH, "./textures/blue_stones.xpm");
+	init_texture_img(WEST, "./textures/eagle.xpm");
+	init_texture_img(SOUTH, "./textures/greystone.xpm");
+	init_texture_img(EAST, "./textures/red.xpm");
 	mlx_loop(data->mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/01/31 05:52:35 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/01/31 23:59:51 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define WIDTH 1280
-# define HEIGHT 700
+# define WIDTH 640
+# define HEIGHT 480
 # define WINDOW_NAME "WE ARE THE WORLD"
 
 # define NORTH 0
@@ -46,111 +46,119 @@
 
 typedef struct s_img_data
 {
-	void			*img;
-	char			*addr;
-	int				bits_per_pixel;
-	int				line_length;
-	int				endian;
-}					t_img_data;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+}				t_img_data;
 
 typedef struct s_data
 {
-	void			*mlx;
-	void			*win;
-	t_img_data		img;
-	char			**map;
-}					t_data;
+	void		*mlx;
+	void		*win;
+	t_img_data	img;
+	char		**map;
+}				t_data;
 
 typedef struct s_vector
 {
-	double			x;
-	double			y;
-}					t_vector;
+	double		x;
+	double		y;
+}				t_vector;
 
-typedef struct s_ray
+typedef struct s_player_ray
 {
-	t_vector		pos;
-	t_vector		way;
-}					t_ray;
+	double		raydir_x;
+	double		raydir_y;
+	double		ray_x;
+	double		ray_y;
+	double		delta_dist_x;
+	double		delta_dist_y;
+	double		dist_x;
+	double		dist_y;
+	double		step_x;
+	double		step_y;
+	double		perp_wall_dist;
+	int			line_height;
+	int			start_y;
+	int			end_y;
+}				t_player_ray;
+
+// typedef struct s_ray
+// {
+// 	t_vector		pos;
+// 	t_vector		way;
+// }					t_ray;
 
 typedef struct s_player
 {
-	double			fov;
-	t_vector		pos;
+	double		fov;
+	t_vector	pos;
 	// t_vector		way;
 	// t_vector		plane;
-	double			angle;
-	int				is_right_angle;
-	int				is_left_angle;
-}					t_player;
+	double		angle;
+	int			is_right_angle;
+	int			is_left_angle;
+}				t_player;
 
 typedef struct s_texture_img
 
 {
-	void			*img;
-	char			*addr;
-	int				bits_per_pixel;
-	int				line_length;
-	int				endian;
-	int				width;
-	int				height;
-}					t_texture_img;
-
-typedef struct s_square
-{
-	t_ray			top;
-	t_ray			down;
-	t_ray			left;
-	t_ray			right;
-	struct s_square	*next;
-}					t_square;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	int			width;
+	int			height;
+}				t_texture_img;
 
 // parse
-int					open_cubfile(int argc, char *filename);
+int				open_cubfile(int argc, char *filename);
 
 // global.c
-t_data				*get_t_data(void);
-t_player			*get_player(void);
-t_square			**get_square(void);
-t_texture_img		*get_texture_img(void);
+t_data			*get_t_data(void);
+t_player		*get_player(void);
+// t_square			**get_square(void);
+t_texture_img	*get_texture_img(void);
 
 // init.c
-void				init_t_data(void);
+void			init_t_data(void);
 
 // free.c
-void				free_square(void);
-void				free_t_data(void);
+void			free_t_data(void);
 
 // event.c
-int					key_event(int keycode, t_data *data);
+int				key_event(int keycode, t_data *data);
 
 // utils.c
-void				my_mlx_pixel_put(t_img_data *data, int x, int y, int color);
-unsigned int		get_texture_pixel_color(t_texture_img texture_img, int x,
-						int y);
-int					create_trgb(int t, int r, int g, int b);
-double				ft_min(double c1, double c2);
-double				ft_max(double c1, double c2);
+void			my_mlx_pixel_put(t_img_data *data, int x, int y, int color);
+unsigned int	get_texture_pixel_color(t_texture_img texture_img, int x,
+					int y);
+int				create_trgb(int t, int r, int g, int b);
+double			ft_min(double c1, double c2);
+double			ft_max(double c1, double c2);
 
 // vector.c
-t_vector			vector_add(t_vector a, t_vector b);
-t_vector			vector_sub(t_vector a, t_vector b);
-double				vector_mag(t_vector a);
+t_vector		vector_add(t_vector a, t_vector b);
+t_vector		vector_sub(t_vector a, t_vector b);
+double			vector_mag(t_vector a);
 
 // ray.c
-t_ray				with2p(t_vector begin, t_vector end);
-t_vector			ray_begin(t_ray ray);
-t_vector			ray_end(t_ray ray);
-t_vector			*calc_intersection(t_ray ray1, t_ray ray2);
+// t_ray				with2p(t_vector begin, t_vector end);
+// t_vector			ray_begin(t_ray ray);
+// t_vector			ray_end(t_ray ray);
+// t_vector			*calc_intersection(t_ray ray1, t_ray ray2);
 
 // render.c
-int					render(t_data *data);
+int				render(t_data *data);
 
 // error.c
-int					open_ber_file(int argc, char *filename);
+int				open_ber_file(int argc, char *filename);
 
 // square.c
-t_square			*create_square(int x, int y);
-void				add_square(t_square *new);
+// t_square			*create_square(int x, int y);
+// void				add_square(t_square *new);
 
 #endif

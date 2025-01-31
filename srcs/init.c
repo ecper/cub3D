@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:08:23 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 01:01:12 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 01:28:16 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,22 @@ char	**get_map(void)
 	return (map);
 }
 
-static void	init_player(void)
+static void	init_player(int map_x, int map_y, int dir)
 {
 	t_player	*player;
 
 	player = get_player();
 	player->fov = M_PI / 4;
-	player->angle = 0;
-	player->pos.x = 4;
-	player->pos.y = 4;
+	if (dir == NORTH)
+		player->angle = 3 * M_PI / 2;
+	else if (dir == WEST)
+		player->angle = M_PI;
+	else if (dir == SOUTH)
+		player->angle = M_PI / 2;
+	else
+		player->angle = 0;
+	player->pos.x = map_x;
+	player->pos.y = map_y;
 }
 
 void	init_t_data(void)
@@ -64,7 +71,7 @@ void	init_t_data(void)
 	t_data		*data;
 	t_player	*player;
 
-	init_player();
+	init_player(4, 4, NORTH);
 	player = get_player();
 	data = get_t_data();
 	data->map = get_map();

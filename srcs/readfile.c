@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   readfile.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/01 03:03:29 by soaoki            #+#    #+#             */
+/*   Updated: 2025/02/01 03:03:58 by soaoki           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 static int	add_line(t_map *map, char *line)
@@ -28,13 +40,13 @@ static int	add_line(t_map *map, char *line)
 	return (1);
 }
 
-t_map *read_configfile(int fd)
+t_map	*read_configfile(int fd)
 {
-	t_map *buff;
-	char *readline;
+	t_map	*buff;
+	char	*readline;
 
-	buff=ft_calloc(sizeof(t_map),1);
-	if(!buff)
+	buff = ft_calloc(sizeof(t_map), 1);
+	if (!buff)
 		return (NULL);
 	readline = get_next_line(fd);
 	while (readline != NULL)

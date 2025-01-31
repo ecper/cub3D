@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:03:08 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 00:28:17 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 03:04:33 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_map_char(char **map, int i)
 	while (map[i] != NULL)
 	{
 		j = 0;
-		while (map[i][j] !='\0')
+		while (map[i][j] != '\0')
 		{
 			if (map[i][j] != '0' && map[i][j] != '1' && map[i][j] != ' '
 				&& map[i][j] != 'N' && map[i][j] != 'S' && map[i][j] != 'W'

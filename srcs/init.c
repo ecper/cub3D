@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:08:23 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 02:11:29 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:06:53 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	init_texture_img(int dir, char *path)
 	texture_img = get_texture_img();
 	texture_img[dir].img = mlx_xpm_file_to_image(data->mlx, path,
 			&(texture_img[dir].width), &(texture_img[dir].height));
-	// TODO エラーハンドリング書く（exit_freeのイメージ)
 	if (!(texture_img)[dir].img)
 		return ;
 	(texture_img)[dir].addr = mlx_get_data_addr((texture_img)[dir].img,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 00:22:56 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 01:55:46 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:09:41 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,4 @@ void	all_free(t_config *config, t_map *config_file)
 {
 	free_configfile(config_file);
 	free_config(config);
-}
-
-void	free_exit(t_config *config, t_map *config_file)
-{
-	all_free(config, config_file);
-	exit(1);
 }

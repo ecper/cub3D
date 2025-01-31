@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 01:59:23 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:09:04 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	free_exit(t_config *config, t_map *config_file)
+{
+	all_free(config, config_file);
+	exit(1);
+}
 
 int	open_cubfile(int argc, char *filename)
 {
@@ -30,27 +36,11 @@ int	open_cubfile(int argc, char *filename)
 
 int	main(int argc, char **argv)
 {
-	int fd;
-	t_config *init_config;
+	int			fd;
+	t_config	*init_config;
 
-	init_config;
-	fd = open_cubfile(argc, argv[1]); // openのエラーとエクステンションの確認
+	fd = open_cubfile(argc, argv[1]);
 	*get_config() = parser(fd);
-	// free(config->path_ea.path);
-	// free(config->path_no.path);
-	// free(config->path_we.path);
-	// free(config->path_so.path);
-	// wp_free(&(config->map.mapinfo));
-	// free(config);
-	// init_t_dataにconfigを渡して初期化する。
 	init_t_data();
-
-	// mlx_mouse_hook(data.win, mouse_hook, &data);
-	// mlx_key_hook(data.win, key_hook, &data);
-	// mlx_hook(data.win, CROSS_BUTTON, 0, close_window, &data);
-	// mlx_expose_hook(data.win, key_hook, &data);
-	// mlx_loop_hook(data.mlx, render, &data);
-	// mlx_loop(data.mlx);
-
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:11:43 by soaoki            #+#    #+#             */
-/*   Updated: 2025/01/31 19:11:51 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 03:02:20 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char	**make_validation_map(char **map)
 
 	max_len = get_maxarray_index(map);
 	num_array = count_strarray(map);
-	printf("len = %d,array_size = %d\n",max_len,num_array);
 	v_map = ft_calloc(sizeof(char *), (num_array +1));
 	i = 0;
 	while (i < num_array)
@@ -71,7 +70,5 @@ char	**make_validation_map(char **map)
 	}
 	v_map [i] = NULL;
 	wp_free(&map);
-	printf("validation map is\n");
-	printmap(v_map);
 	return (v_map);
 }

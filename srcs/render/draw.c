@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 00:57:39 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 02:02:04 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 06:13:34 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	draw_floor(int end_y, int x)
 	int			floor_end;
 
 	floor_start = end_y;
+	if (floor_start < 0)
+		return ;
 	floor_end = HEIGHT;
 	data = get_t_data();
 	config = get_config();

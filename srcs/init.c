@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:08:23 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 02:11:29 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 06:17:42 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ static void	init_player(int map_x, int map_y, char p_direction)
 		player->angle = M_PI / 2;
 	else
 		player->angle = 0;
-	player->pos.x = map_x;
-	player->pos.y = map_y;
+	printf("x: %d, y: %d\n", map_x, map_y);
+	player->pos.x = (double)map_x - 0.5;
+	player->pos.y = (double)map_y - 0.5;
 }
 
 static void	init_config_to_data(t_config *config)
@@ -53,6 +54,8 @@ static void	init_config_to_data(t_config *config)
 
 	data = get_t_data();
 	data->map = (config)->map.mapinfo;
+	data->max_map_x = get_maxarray_index(data->map);
+	data->max_map_y = count_strarray(data->map);
 	data->ceil_color[0] = (config)->ceil.color[0];
 	data->ceil_color[1] = (config)->ceil.color[1];
 	data->ceil_color[2] = (config)->ceil.color[2];
@@ -89,6 +92,7 @@ void	init_t_data(void)
 	data->img.img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bits_per_pixel,
 			&data->img.line_length, &data->img.endian);
+	mlx_hook(data->win, CROSS_BUTTON, 0, close_window, data);
 	mlx_hook(data->win, ON_KEYDOWN, ON_KEYDOWN, key_event, data);
 	mlx_hook(data->win, ON_KEYUP, ON_KEYUP, key_event, data);
 	mlx_loop_hook(data->mlx, render, data);

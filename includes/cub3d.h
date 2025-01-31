@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 02:13:29 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 06:17:36 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 # define EAST 3
 
 # define SQUARE_SIZE 64
+
+# define CROSS_BUTTON 17
 
 # define ON_KEYDOWN 2
 # define ON_KEYUP 3
@@ -137,6 +139,8 @@ typedef struct s_data
 	char					**map;
 	int						floor_color[MAX_COLOR];
 	int						ceil_color[MAX_COLOR];
+	int						max_map_x;
+	int						max_map_y;
 }							t_data;
 
 typedef struct s_vector
@@ -149,8 +153,6 @@ typedef struct s_player_ray
 {
 	double					raydir_x;
 	double					raydir_y;
-	double					ray_x;
-	double					ray_y;
 	double					delta_dist_x;
 	double					delta_dist_y;
 	double					dist_x;
@@ -209,7 +211,7 @@ void						free_t_data(void);
 
 // event.c
 int							key_event(int keycode, t_data *data);
-
+int							close_window(t_data *data);
 // utils.c
 void						my_mlx_pixel_put(t_img_data *data, int x, int y,
 								int color);

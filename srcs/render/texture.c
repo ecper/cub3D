@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 00:48:27 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 01:04:12 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:52:02 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static int	check_texture_dir(double raydir_x, double raydir_y, int side)
 {
 	if (raydir_y >= 0 && ((raydir_x >= 0 || raydir_x <= 0)) && side == 1)
-		return (NORTH);
-	else if (raydir_x >= 0 && (raydir_y >= 0 || raydir_y <= 0) && side == 0)
-		return (WEST);
-	else if (raydir_x <= 0 && (raydir_y <= 0 || raydir_y >= 0) && side == 0)
-		return (EAST);
-	else
 		return (SOUTH);
+	else if (raydir_x >= 0 && (raydir_y >= 0 || raydir_y <= 0) && side == 0)
+		return (EAST);
+	else if (raydir_x <= 0 && (raydir_y <= 0 || raydir_y >= 0) && side == 0)
+		return (WEST);
+	else
+		return (NORTH);
 }
 
 static void	calc_texture_pixel_pos(t_tex_calc *tex_calc,

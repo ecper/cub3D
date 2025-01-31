@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:11:43 by soaoki            #+#    #+#             */
-/*   Updated: 2025/01/31 19:11:51 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 05:36:35 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ char	**make_game_map(t_map *config_file)
 	int		start;
 
 	array_size = (config_file->height - config_file->map_h);
-	map = ft_calloc(sizeof(char *), array_size +1);
+	map = ft_calloc(sizeof(char *), array_size + 1);
 	i = 0;
-	start = config_file ->map_h;
+	start = config_file->map_h;
 	while (i < array_size)
-		map[i++] = ft_strdup(config_file->mapinfo[start ++]);
+		map[i++] = ft_strdup(config_file->mapinfo[start++]);
 	map[i] = NULL;
 	return (map);
 }
@@ -58,8 +58,8 @@ char	**make_validation_map(char **map)
 
 	max_len = get_maxarray_index(map);
 	num_array = count_strarray(map);
-	printf("len = %d,array_size = %d\n",max_len,num_array);
-	v_map = ft_calloc(sizeof(char *), (num_array +1));
+	printf("len = %d,array_size = %d\n", max_len, num_array);
+	v_map = ft_calloc(sizeof(char *), (num_array + 1));
 	i = 0;
 	while (i < num_array)
 	{
@@ -67,9 +67,9 @@ char	**make_validation_map(char **map)
 		ft_memset(v_map[i], '3', max_len);
 		v_map[i][max_len] = '\0';
 		map_strcpy(v_map[i], map[i]);
-		i ++;
+		i++;
 	}
-	v_map [i] = NULL;
+	v_map[i] = NULL;
 	wp_free(&map);
 	printf("validation map is\n");
 	printmap(v_map);

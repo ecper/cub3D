@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:03:08 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 00:28:17 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 05:58:32 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ void	validation_map(t_config *config, t_map *config_file, int i)
 		free_exit(config, config_file);
 	}
 	config->y_position = config->y_position - config_file->map_h;
-	config->map.mapinfo = make_game_map(config_file);
-	dup_map = make_game_map(config_file);
-	v_map = make_validation_map(dup_map);
-	if (!check_surroundwall(v_map))
+	config->map.mapinfo = make_validation_map(make_game_map(config_file));
+	// dup_map = make_game_map(config_file);
+	// v_map = make_validation_map(make_game_map(config_file));
+	if (!check_surroundwall(config->map.mapinfo))
 	{
 		free_exit(config, config_file);
 	}
-	wp_free(&v_map);
+	// wp_free(&config->map.mapinfo);
 }

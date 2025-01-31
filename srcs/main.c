@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 01:59:23 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:06:31 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ int	open_cubfile(int argc, char *filename)
 int	main(int argc, char **argv)
 {
 	int fd;
-	t_config *init_config;
 
-	init_config;
 	fd = open_cubfile(argc, argv[1]); // openのエラーとエクステンションの確認
 	*get_config() = parser(fd);
 	// free(config->path_ea.path);

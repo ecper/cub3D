@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:21:31 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 01:00:17 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:08:10 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 
 int	close_window(t_data *data)
 {
+	t_config	**config;
+
+	config = get_config();
 	mlx_destroy_window(data->mlx, data->win);
 	free_t_data();
+	all_free(*config, NULL);
 	exit(0);
 	return (0);
 }
@@ -24,9 +28,11 @@ static void	change_player_pos(double dx, double dy)
 {
 	t_data		*data;
 	t_player	*player;
+	t_config	**config;
 
 	data = get_t_data();
 	player = get_player();
+	config = get_config();
 	if (data->map[(int)(player->pos.y + dy)][(int)(player->pos.x + dx)] > '0')
 		return ;
 	player->pos.x += dx;

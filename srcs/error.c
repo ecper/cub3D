@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 00:22:56 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 01:30:52 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 01:55:46 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	wp_free(char ***str)
 
 void	free_configfile(t_map *config_file)
 {
+	if (!config_file)
+		return ;
 	if (config_file->mapinfo)
 		wp_free(&(config_file->mapinfo));
 	free(config_file);

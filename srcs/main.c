@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:03:45 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 01:32:04 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 01:59:23 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,19 @@ int	open_cubfile(int argc, char *filename)
 int	main(int argc, char **argv)
 {
 	int fd;
-	t_config *config;
+	t_config *init_config;
 
+	init_config;
 	fd = open_cubfile(argc, argv[1]); // openのエラーとエクステンションの確認
-	config = parser(fd);
-	free(config->path_ea.path);
-	free(config->path_no.path);
-	free(config->path_we.path);
-	free(config->path_so.path);
-	wp_free(&(config->map.mapinfo));
-	free(config);
+	*get_config() = parser(fd);
+	// free(config->path_ea.path);
+	// free(config->path_no.path);
+	// free(config->path_we.path);
+	// free(config->path_so.path);
+	// wp_free(&(config->map.mapinfo));
+	// free(config);
 	// init_t_dataにconfigを渡して初期化する。
-	// init_t_data();
+	init_t_data();
 
 	// mlx_mouse_hook(data.win, mouse_hook, &data);
 	// mlx_key_hook(data.win, key_hook, &data);

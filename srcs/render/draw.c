@@ -6,41 +6,48 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 00:57:39 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 01:04:49 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:02:04 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	draw_celling(int start_y, int x)
+static void	draw_ceil(int start_y, int x)
 {
-	t_data	*data;
-	int		celling_start;
-	int		celling_end;
+	t_data		*data;
+	t_config	**config;
+	int			celling_start;
+	int			celling_end;
 
 	celling_start = 0;
 	celling_end = start_y;
 	data = get_t_data();
+	config = get_config();
 	while (celling_start < celling_end)
 	{
-		my_mlx_pixel_put(&data->img, x, celling_start, create_trgb(1, 255, 255,
-				0));
+		my_mlx_pixel_put(&data->img, x, celling_start, create_trgb(1,
+				(*config)->ceil.color[0], (*config)->ceil.color[1],
+				(*config)->ceil.color[2]));
 		celling_start++;
 	}
 }
 
 static void	draw_floor(int end_y, int x)
 {
-	t_data	*data;
-	int		floor_start;
-	int		floor_end;
+	t_data		*data;
+	t_config	**config;
+	int			floor_start;
+	int			floor_end;
 
 	floor_start = end_y;
 	floor_end = HEIGHT;
 	data = get_t_data();
+	config = get_config();
 	while (floor_start < floor_end)
 	{
-		my_mlx_pixel_put(&data->img, x, floor_start, create_trgb(1, 0, 255, 0));
+		my_mlx_pixel_put(&data->img, x, floor_start, create_trgb(1,
+				(*config)->floor.color[0], (*config)->floor.color[1],
+				(*config)->floor.color[2]));
 		floor_start++;
 	}
 }
@@ -55,7 +62,7 @@ void	draw_player_ray(t_player *player, t_data *data, double start_x, int i)
 	map_y = (int)player->pos.y;
 	init_player_ray(&player_ray, map_x, map_y, start_x);
 	calc_player_ray(&player_ray, map_x, map_y, start_x);
-	draw_celling(player_ray.start_y, i);
+	draw_ceil(player_ray.start_y, i);
 	draw_texture(player_ray, i);
 	draw_floor(player_ray.end_y, i);
 }

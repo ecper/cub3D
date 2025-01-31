@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 01:32:47 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:13:29 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ typedef struct s_data
 	void					*win;
 	t_img_data				img;
 	char					**map;
+	int						floor_color[MAX_COLOR];
+	int						ceil_color[MAX_COLOR];
 }							t_data;
 
 typedef struct s_vector
@@ -198,7 +200,7 @@ int							open_cubfile(int argc, char *filename);
 t_data						*get_t_data(void);
 t_player					*get_player(void);
 t_texture_img				*get_texture_img(void);
-
+t_config					**get_config(void);
 // init.c
 void						init_t_data(void);
 

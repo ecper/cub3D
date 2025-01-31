@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:08:23 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 06:17:42 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 06:19:19 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	init_texture_img(int dir, char *path)
 	texture_img = get_texture_img();
 	texture_img[dir].img = mlx_xpm_file_to_image(data->mlx, path,
 			&(texture_img[dir].width), &(texture_img[dir].height));
-	// TODO エラーハンドリング書く（exit_freeのイメージ)
 	if (!(texture_img)[dir].img)
 		return ;
 	(texture_img)[dir].addr = mlx_get_data_addr((texture_img)[dir].img,

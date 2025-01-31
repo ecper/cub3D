@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:11:43 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 05:36:35 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 06:20:16 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,11 @@ char	**make_game_map(t_map *config_file)
 
 void	map_strcpy(char *dst, const char *src)
 {
-	size_t	i;
-	size_t	len;
+	int	i;
 
-	len = ft_strlen((char *)src);
 	i = 0;
 	if (dst == NULL || src == NULL)
-		return (len);
+		return ;
 	while (src[i] != '\0')
 	{
 		if (src[i] == '\n')
@@ -46,7 +44,6 @@ void	map_strcpy(char *dst, const char *src)
 			dst[i] = src[i];
 		i++;
 	}
-	return (len);
 }
 
 char	**make_validation_map(char **map)
@@ -58,8 +55,7 @@ char	**make_validation_map(char **map)
 
 	max_len = get_maxarray_index(map);
 	num_array = count_strarray(map);
-	printf("len = %d,array_size = %d\n", max_len, num_array);
-	v_map = ft_calloc(sizeof(char *), (num_array + 1));
+	v_map = ft_calloc(sizeof(char *), (num_array +1));
 	i = 0;
 	while (i < num_array)
 	{
@@ -71,7 +67,5 @@ char	**make_validation_map(char **map)
 	}
 	v_map[i] = NULL;
 	wp_free(&map);
-	printf("validation map is\n");
-	printmap(v_map);
 	return (v_map);
 }

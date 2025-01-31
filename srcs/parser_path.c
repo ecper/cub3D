@@ -6,7 +6,7 @@
 /*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:18:14 by soaoki            #+#    #+#             */
-/*   Updated: 2025/01/31 20:35:14 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 03:38:04 by soaoki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,17 @@ int	validation_path(t_config *config, char *line)
 	path = ft_trim_white(line);
 	len = ft_strlen(path);
 	if (len < 4 || ft_strncmp(path + len - 4, ".xpm", 4) != 0)
-		return (print_error("Error:Only input tex path that have .xpm"), 0);
+		return (print_error("Only input texpath have .xpm"), free(path), 0);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		return (print_error("Error:Input correct tex path"), close(fd), 0);
+		return (print_error("Input correct tex path"), free(path), 0);
 	close(fd);
 	if (!set_texture_path(config, path, direction))
 	{
 		if (path)
 		{
 			free(path);
-			print_error("Error : identifier is one");
+			print_error("identifier is one");
 		}
 		return (0);
 	}

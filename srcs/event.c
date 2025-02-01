@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:21:31 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 05:55:13 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 06:55:53 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	close_window(t_data *data)
 	t_config	**config;
 
 	config = get_config();
+	free_texture_image();
 	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_display(data->mlx);
 	free_t_data();
 	all_free(*config, NULL);
 	exit(0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:01:30 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 03:02:57 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 06:28:57 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_config	*parser(int fd)
 		check_mapinfo_last(config, config_file, line_id);
 		if (line_id != LINE_EMPTY)
 			if (!(parsing_line(config, config_file->mapinfo[i], line_id)))
-				exit(1);
+				free_exit(config, config_file);
 		i++;
 		if (present_info(config))
 			break ;

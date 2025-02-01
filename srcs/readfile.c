@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readfile.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soaoki <soaoki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 03:03:29 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 04:20:48 by soaoki           ###   ########.fr       */
+/*   Updated: 2025/02/01 06:32:47 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,10 @@ t_map	*read_configfile(int fd)
 	}
 	close(fd);
 	if (!buff || !(buff->mapinfo))
-	{	
+	{
 		print_error("Could not load map");
-		exit (1);
+		free(buff);
+		exit(1);
 	}
 	return (buff);
 }

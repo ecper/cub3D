@@ -1,6 +1,6 @@
 # プロジェクトの設定
 NAME = Cub3D
-GNL = $(wildcard get_next_line/*.c) # 後で修正
+GNL = get_next_line/get_next_line.c get_next_line/get_next_line_util.c
 LIB_DIR		= ./Libft
 LIB_NAME	= $(LIB_DIR)/libft.a
 SRC = srcs/main.c srcs/global.c srcs/init.c srcs/free.c srcs/event.c srcs/utils.c \

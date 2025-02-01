@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 00:48:27 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 02:52:02 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 09:07:55 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	draw_texture(t_player_ray player_ray, int i)
 	while (player_ray.start_y < player_ray.end_y)
 	{
 		tex_calc.tex_y = (int)tex_calc.tex_pos
-			& (texture_img[texture_dir].height - 1);
+				& (texture_img[texture_dir].height - 1);
 		tex_calc.tex_pos += tex_calc.step;
 		my_mlx_pixel_put(&data->img, i, player_ray.start_y,
 			get_texture_pixel_color(texture_img[texture_dir], tex_calc.tex_x,

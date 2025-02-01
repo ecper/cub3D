@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 11:04:21 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 06:17:36 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 08:57:30 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define WIDTH 640
-# define HEIGHT 480
+# define WIDTH 1280
+# define HEIGHT 700
 # define WINDOW_NAME "WE ARE THE WORLD"
 
 # define NORTH 0
@@ -208,6 +208,7 @@ void						init_t_data(void);
 
 // free.c
 void						free_t_data(void);
+void						free_texture_image(void);
 
 // event.c
 int							key_event(int keycode, t_data *data);

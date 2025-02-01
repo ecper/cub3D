@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 00:50:00 by hauchida          #+#    #+#             */
-/*   Updated: 2025/02/01 05:38:03 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 09:01:57 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ static void	check_wall_hit_ray(t_data *data, t_player_ray *player_ray,
 		{
 			return ;
 		}
-		// printf("map_x: %d, map_y: %d, max_map_x: %d, max_map_y: %d\n", map_x,
-		// 	map_y, data->max_map_x, data->max_map_y);
 		if (data->map[map_y][map_x] == '1' && data->map[map_y][map_x] != 'N')
 			hit = 1;
 	}
@@ -102,9 +100,6 @@ void	calc_player_ray(t_player_ray *player_ray, int map_x, int map_y,
 
 	data = get_t_data();
 	check_wall_hit_ray(data, player_ray, map_x, map_y);
-	// printf("dist_x: %f, dist_y: %f, delta_dist_x: %f, delta_dist_y: %f\n",
-	// 	player_ray->dist_x, player_ray->dist_y, player_ray->delta_dist_x,
-	// 	player_ray->delta_dist_y);
 	if (player_ray->side == 0)
 		player_ray->perp_wall_dist = player_ray->dist_x
 			- (player_ray->delta_dist_x);
@@ -115,8 +110,6 @@ void	calc_player_ray(t_player_ray *player_ray, int map_x, int map_y,
 	player_ray->start_y = -(player_ray->line_height / 2) + (HEIGHT / 2);
 	if (player_ray->start_y < 0)
 		player_ray->start_y = 0;
-	// printf("wall_dist %f, line_height: %d\n", player_ray->perp_wall_dist,
-	// 	player_ray->line_height);
 	player_ray->end_y = (player_ray->line_height / 2) + (HEIGHT / 2);
 	if (player_ray->end_y >= HEIGHT)
 		player_ray->end_y = HEIGHT - 1;

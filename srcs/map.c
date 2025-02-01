@@ -6,7 +6,7 @@
 /*   By: hauchida <hauchida@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:03:08 by soaoki            #+#    #+#             */
-/*   Updated: 2025/02/01 06:20:04 by hauchida         ###   ########.fr       */
+/*   Updated: 2025/02/01 06:38:52 by hauchida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_map_emptyline(char **map, int i)
 			print_error("Map information must not contain blank lines");
 			return (1);
 		}
-		i ++;
+		i++;
 	}
 	return (0);
 }
@@ -42,9 +42,9 @@ int	check_map_char(char **map, int i)
 				print_error("invalid character");
 				return (1);
 			}
-			j ++;
+			j++;
 		}
-		i ++;
+		i++;
 	}
 	return (0);
 }
@@ -71,9 +71,9 @@ int	check_map_start(t_config *config, char **map, int i)
 				else
 					return (print_error("start position is one"), 1);
 			}
-			j ++;
+			j++;
 		}
-		i ++;
+		i++;
 	}
 	return (0);
 }
@@ -87,9 +87,8 @@ void	validation_map(t_config *config, t_map *config_file, int i)
 		i++;
 	config_file->map_h = i;
 	if (check_map_emptyline(config_file->mapinfo, i)
-		|| check_map_char(config_file->mapinfo, i)
-		|| check_map_start(config, config_file->mapinfo, i)
-		|| !config->p_count)
+		|| check_map_char(config_file->mapinfo, i) || check_map_start(config,
+			config_file->mapinfo, i) || !config->p_count)
 	{
 		if (!config->p_count)
 			print_error("start position is one");
@@ -97,11 +96,6 @@ void	validation_map(t_config *config, t_map *config_file, int i)
 	}
 	config->y_position = config->y_position - config_file->map_h;
 	config->map.mapinfo = make_validation_map(make_game_map(config_file));
-	// dup_map = make_game_map(config_file);
-	// v_map = make_validation_map(make_game_map(config_file));
 	if (!check_surroundwall(config->map.mapinfo))
-	{
 		free_exit(config, config_file);
-	}
-	// wp_free(&config->map.mapinfo);
 }
